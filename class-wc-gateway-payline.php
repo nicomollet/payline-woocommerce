@@ -412,9 +412,9 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$this->debug       = ( isset( $this->settings['debug'] ) && $this->settings['debug'] == 'yes' ) ? true : false;
 
 		// The module settings page URL
-		$link = add_query_arg('page', 'wc-settings', admin_url('admin.php'));
-		$link = add_query_arg('tab', 'checkout', $link);
-		$link = add_query_arg('section', 'payline', $link);
+		$link             = add_query_arg( 'page', 'wc-settings', admin_url( 'admin.php' ) );
+		$link             = add_query_arg( 'tab', 'checkout', $link );
+		$link             = add_query_arg( 'section', 'payline', $link );
 		$this->admin_link = $link;
 
 		// logger
@@ -796,7 +796,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$doWebPaymentRequest['buyer']['customerId']  = $order->get_billing_email();
 		$doWebPaymentRequest['buyer']['email']       = $doWebPaymentRequest['buyer']['customerId'];
 		$doWebPaymentRequest['buyer']['ip']          = $_SERVER['REMOTE_ADDR'];
-		$doWebPaymentRequest['buyer']['mobilePhone'] = preg_replace("/[^0-9.]/", '', $order->get_billing_phone());
+		$doWebPaymentRequest['buyer']['mobilePhone'] = preg_replace( "/[^0-9.]/", '', $order->get_billing_phone() );
 
 		// BILLING ADDRESS
 		$doWebPaymentRequest['billingAddress']['name'] = $order->get_billing_first_name() . " " . $order->get_billing_last_name();
@@ -876,13 +876,13 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			exit;
 		}
 
-		if($_GET['token']){
-			$token = esc_html($_GET['token']);
+		if ( $_GET['token'] ) {
+			$token = esc_html( $_GET['token'] );
 		}
-		if($_GET['paylinetoken']){
-			$token = esc_html($_GET['paylinetoken']);
+		if ( $_GET['paylinetoken'] ) {
+			$token = esc_html( $_GET['paylinetoken'] );
 		}
-		if(empty($token)){
+		if ( empty( $token ) ) {
 			exit;
 		}
 
@@ -905,10 +905,10 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$order         = new WC_Order( $orderId );
 			$expectedToken = get_option( 'plnTokenForOrder_' . $orderId );
 			//if ( $expectedToken != $token ) {
-				$message = 'Token ' . $token . ' does not match expected ' . $expectedToken . ' for order ' . $orderId . ' updating order anyway';
-				//$this->SDK->getLogger()->addError( $message );
-				$order->add_order_note( $message );
-				//die( $message );
+			$message = 'Token ' . $token . ' does not match expected ' . $expectedToken . ' for order ' . $orderId . ' updating order anyway';
+			//$this->SDK->getLogger()->addError( $message );
+			$order->add_order_note( $message );
+			//die( $message );
 			//}
 			if ( $res['result']['code'] == '00000' ) {
 				// Store transaction details
@@ -916,7 +916,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				update_post_meta( (int) $orderId, 'Card number', $res['card']['number'] );
 				update_post_meta( (int) $orderId, 'Payment mean', $res['card']['type'] );
 				update_post_meta( (int) $orderId, 'Card expiry', $res['card']['expirationDate'] );
-				$order->payment_complete();
+				$order->payment_complete($res['transaction']['id']);
 				wp_redirect( $this->get_return_url( $order ) );
 				die();
 			} elseif ( $res['result']['code'] == '04003' ) {
