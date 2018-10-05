@@ -1,8 +1,12 @@
 * Update vendor folder
 * WooCommerce 3.0 compatibility (not compatible anymore with WooCommerce 2.x)
+* Transaction ID compatibility
+* Code refactoring
+* Allow token to be also paylinetoken in some cases
+* Fix format error when customer email > 50 chars
 
 ### 1.3.5 - 2017/04/04
-* Feature - send buyer info mandatoty for Cetelem 3x / 4x
+* Feature - send buyer info mandatory for Cetelem 3x / 4x
 
 ### 1.3.4 - 2017/02/27
 * Fix - languages files
@@ -16,5 +20,5 @@
 ### 1.3.1 - 2015/12/09
 * Feature - compliance with Payline PHP library v4.43
 
-### 1.3 - 2015/02/27
+### 1.3.0 - 2015/02/27
 * Feature - compliance with wc 2.3 and over

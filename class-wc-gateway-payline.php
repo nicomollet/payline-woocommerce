@@ -457,7 +457,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			<tr>
 				<td width="40%">
 					<p>
-						<img src="<?php echo WCPAYLINE_PLUGIN_URL . 'assets/images/payline.png' ?>"></img>
+						<img src="<?php echo WCPAYLINE_PLUGIN_URL . 'assets/images/payline.png'; ?>"  alt="Payline"/>
 					</p>
 				</td>
 				<td width="100%">
@@ -816,7 +816,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 		// SHIPPING ADDRESS
 		$doWebPaymentRequest['shippingAddress']['name'] = $order->get_shipping_first_name() . " " . $order->get_shipping_last_name();
-		if ( $order->shipping_company != null && strlen( $order->get_shipping_company() ) > 0 ) {
+		if ( ! empty( $order->get_shipping_company() ) ) {
 			$doWebPaymentRequest['shippingAddress']['name'] .= ' (' . $order->get_shipping_company() . ')';
 		}
 		$doWebPaymentRequest['shippingAddress']['firstName'] = $order->get_shipping_first_name();
