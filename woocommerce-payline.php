@@ -2,27 +2,18 @@
 /**
  * Plugin Name: TMSM WooCommerce Payline by Monext Payment Gateway
  * Plugin URI: http://www.payline.com
- * Description: Integration of Payline byh payment solution in your WooCommerce store
- * Version: 1.3.5
- * Author: Monext
- * Author URI: http://www.monext.fr
- * License: LGPL-3.0+
- * 
- *  Copyright 2017  Monext  (email : support@payline.com)
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
-    published by the Free Software Foundation.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ * Description: Integration of Payline by Monext payment gateway in your WooCommerce store
+ * Version: 1.3.6
+ * Author:            Nicolas Mollet
+ * Author URI:        https://github.com/nicomollet
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain:       tmsm-woocommerce-payline
+ * Domain Path:       /languages
+ * Github Plugin URI: https://github.com/thermesmarins/tmsm-woocommerce-payline
+ * Github Branch:     master
+ * Requires PHP:      5.6
+ */
 
 if (!defined('ABSPATH')) exit;
 
@@ -32,9 +23,9 @@ function woocommerce_payline_activation() {
 	if (!is_plugin_active('woocommerce/woocommerce.php')) {
 		deactivate_plugins(plugin_basename(__FILE__));
 
-		load_plugin_textdomain('payline', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+		load_plugin_textdomain('tmsm-woocommerce-payline', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 		
-		$message = sprintf(__('Sorry! In order to use WooCommerce %s Payment plugin, you need to install and activate the WooCommerce plugin.', 'payline'), 'Payline');
+		$message = sprintf(__('Sorry! In order to use WooCommerce %s Payment plugin, you need to install and activate the WooCommerce plugin.', 'tmsm-woocommerce-payline'), 'Payline');
 		wp_die($message, 'WooCommerce Payline Gateway Plugin', array('back_link' => true));
 	}
 }
@@ -43,7 +34,7 @@ register_activation_hook(__FILE__, 'woocommerce_payline_activation');
 // inserts class gateway
 function woocommerce_payline_init() {
 	// Load translation files
-	load_plugin_textdomain('payline', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+	load_plugin_textdomain('tmsm-woocommerce-payline', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 	
 	if (!class_exists('WC_Gateway_Payline')) {
 		require_once 'class-wc-gateway-payline.php';
@@ -63,7 +54,7 @@ add_filter('woocommerce_payment_gateways', 'woocommerce_payline_add_method');
 
 // add a link from plugin list to parameters
 function woocommerce_payline_add_link($links, $file) {
-	$links[] = '<a href="'.admin_url('admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_Gateway_Payline').'">' . __('Settings') .'</a>';
+	$links[] = '<a href="'.admin_url('admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_Gateway_Payline').'">' . __('Settings', 'tmsm-woocommerce-payline') .'</a>';
 	return $links;
 }
 add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'woocommerce_payline_add_link',  10, 2);

@@ -11,7 +11,7 @@ use Payline\PaylineSDK;
  */
 
 class WC_Gateway_Payline extends WC_Payment_Gateway {
-	private $extensionVersion = '1.3.5';
+	private $extensionVersion = '1.3.6';
     private $SDK;
 	private $posData;
 	private $disp_errors = "";
@@ -39,7 +39,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			'BBD' => '52', // Barbados Dollar                                                                                                                            
 			'BYR' => '974', // Belarussian Ruble                                                                                                                         
 			'BZD' => '84', // Belize Dollar                                                                                                                              
-			'XOF' => '952', // CFA Franc BCEAO �                                                                                                                         
+			'XOF' => '952', // CFA Franc BCEAO
 			'BMD' => '60', // Bermudian Dollar (customarily known as Bermuda Dollar)                                                                                     
 			'INR' => '356', // Indian Rupee                                                                                                                              
 			'BTN' => '64', // Ngultrum                                                                                                                                   
@@ -53,7 +53,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			'BGN' => '975', // Bulgarian Lev                                                                                                                             
 			'BIF' => '108', // Burundi Franc                                                                                                                             
 			'KHR' => '116', // Riel                                                                                                                                      
-			'XAF' => '950', // CFA Franc BEAC �                                                                                                                          
+			'XAF' => '950', // CFA Franc BEAC
 			'CAD' => '124', // Canadian Dollar                                                                                                                           
 			'CVE' => '132', // Cape Verde Escudo                                                                                                                         
 			'KYD' => '136', // Cayman Islands Dollar                                                                                                                     
@@ -213,7 +213,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
         $this->icon = apply_filters('woocommerce_payline_icon', WCPAYLINE_PLUGIN_URL . 'assets/images/payline_front.png');
         $this->has_fields = false;
         $this->method_title = 'Payline';
-        $this->order_button_text  = __( 'Pay via Payline', 'woocommerce' );
+        $this->order_button_text  = __( 'Pay via Payline', 'tmsm-woocommerce-payline' );
         
 		// Load the form fields.
 		$this->init_form_fields();
@@ -295,22 +295,22 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
     	<?php
     	if (!empty($woocommerce->session->payline_reset)){
     		unset($woocommerce->session->payline_reset);
-    		echo "<div class='inline updated'><p>".sprintf(__( 'Your %s configuration parameters are reset.', 'payline'), 'Payline')."</p></div>";
+    		echo "<div class='inline updated'><p>".sprintf(__( 'Your %s configuration parameters are reset.', 'tmsm-woocommerce-payline'), 'Payline')."</p></div>";
     	}
     	$this->disp_errors = "";
     	
     	if($this->settings['merchant_id'] == null || strlen($this->settings['merchant_id']) == 0){
     		$this->callGetMerchantSettings = false;
-    		$this->disp_errors .= "<p>".sprintf(__( '%s is mandatory', 'payline'), __('Merchant ID', 'payline' ))."</p>";
+    		$this->disp_errors .= "<p>".sprintf(__( '%s is mandatory', 'tmsm-woocommerce-payline'), __('Merchant ID', 'tmsm-woocommerce-payline' ))."</p>";
     	}
     	if($this->settings['access_key'] == null || strlen($this->settings['access_key']) == 0){
     		$this->callGetMerchantSettings = false;
-    		$this->disp_errors .= "<p>".sprintf(__( '%s is mandatory', 'payline'), __('Access Key', 'payline' ))."</p>";
+    		$this->disp_errors .= "<p>".sprintf(__( '%s is mandatory', 'tmsm-woocommerce-payline'), __('Access Key', 'tmsm-woocommerce-payline' ))."</p>";
     	}
     	
     	if($this->settings['main_contract'] == null || strlen($this->settings['main_contract']) == 0){
     		$this->callGetMerchantSettings = false;
-    		$this->disp_errors .= "<p>".sprintf(__( '%s is mandatory', 'payline'), __('Main contract number', 'payline' ))."</p>";
+    		$this->disp_errors .= "<p>".sprintf(__( '%s is mandatory', 'tmsm-woocommerce-payline'), __('Main contract number', 'tmsm-woocommerce-payline' ))."</p>";
     	}
     	if($this->callGetMerchantSettings){
     		
@@ -327,18 +327,18 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
     		$res = $this->SDK->getEncryptionKey(null);
     		if($res['result']['code'] == '00000'){
     			echo "<div class='inline updated'>";
-    			echo "<p>".__( 'Your settings is correct, connexion with Payline is established', 'payline')."</p>";
+    			echo "<p>".__( 'Your settings is correct, connexion with Payline is established', 'tmsm-woocommerce-payline')."</p>";
     			if($this->settings['environment'] == PaylineSDK::ENV_HOMO){
-    				echo "<p>".__( 'You are in homologation mode, payments are simulated !', 'payline')."<p>";
+    				echo "<p>".__( 'You are in homologation mode, payments are simulated !', 'tmsm-woocommerce-payline')."<p>";
     			}
     			echo "</div>";
     		}else{
     			if(strcmp(WC_Gateway_Payline::BAD_CONNECT_SETTINGS_ERR, $res['result']['longMessage']) == 0){
-    				$this->disp_errors .= "<p>".sprintf(__( 'Unable to connect to Payline, check your %s', 'payline'), __('PAYLINE GATEWAY ACCESS', 'payline' ))."</p>";
+    				$this->disp_errors .= "<p>".sprintf(__( 'Unable to connect to Payline, check your %s', 'tmsm-woocommerce-payline'), __('PAYLINE GATEWAY ACCESS', 'tmsm-woocommerce-payline' ))."</p>";
     			}elseif(strcmp(WC_Gateway_Payline::BAD_PROXY_SETTINGS_ERR, $res['result']['longMessage']) == 0){
-    				$this->disp_errors .= "<p>".sprintf(__( 'Unable to connect to Payline, check your %s', 'payline'), __('PROXY SETTINGS', 'payline' ))."</p>";
+    				$this->disp_errors .= "<p>".sprintf(__( 'Unable to connect to Payline, check your %s', 'tmsm-woocommerce-payline'), __('PROXY SETTINGS', 'tmsm-woocommerce-payline' ))."</p>";
     			}else{
-    				$this->disp_errors .= "<p>".sprintf(__( 'Unable to connect to Payline (code %s : %s)', 'payline'), $res['result']['code'],$res['result']['longMessage'])."</p>";
+    				$this->disp_errors .= "<p>".sprintf(__( 'Unable to connect to Payline (code %s : %s)', 'tmsm-woocommerce-payline'), $res['result']['code'],$res['result']['longMessage'])."</p>";
     			}
     		}
     	}
@@ -362,7 +362,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
     	$resetLink = wp_nonce_url($resetLink, 'payline_reset');
     	?>
     	
-    	<a href="<?php echo $resetLink; ?>"><?php _e('Reset configuration', 'payline');?></a>
+    	<a href="<?php echo $resetLink; ?>"><?php _e('Reset configuration', 'tmsm-woocommerce-payline');?></a>
     	
     	<?php
     }
@@ -384,13 +384,13 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
     function get_supported_languages($all = false) {
     	$langs = array();
     	if($all) {
-    		$langs[''] = __('All', 'payline');
+    		$langs[''] = __('All', 'tmsm-woocommerce-payline');
     	}
     	return $langs;
     }
     
     function get_supported_card_types() {
-    	$cards = array('' => __('All', 'payline'));
+    	$cards = array('' => __('All', 'tmsm-woocommerce-payline'));
     	
     	return $cards;
     }
@@ -403,86 +403,86 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
     	 * Base settings
     	 */
     	$this->form_fields['base_settings'] = array(
-    		'title' => __( 'BASE SETTINGS', 'payline' ),
+    		'title' => __( 'Base settings', 'tmsm-woocommerce-payline' ),
     	    'type' => 'title'
     	);
     	$this->form_fields['enabled'] = array(
-    	    'title' => __('Status', 'payline'),
+    	    'title' => __('Status', 'tmsm-woocommerce-payline'),
     	    'type' => 'checkbox',
-    	    'label' => sprintf(__('Enable %s', 'payline'), 'Payline'),
+    	    'label' => sprintf(__('Enable %s', 'tmsm-woocommerce-payline'), 'Payline'),
     	    'default' => 'yes'
     	);
     	$this->form_fields['title'] = array(
-    		'title' => __('Title', 'payline'),
+    		'title' => __('Title', 'tmsm-woocommerce-payline'),
     	    'type' => 'text',
-    	    'description' => __('This controls the title which the user sees during checkout.', 'payline'),
+    	    'description' => __('This controls the title which the user sees during checkout.', 'tmsm-woocommerce-payline'),
     	    'default' => 'Payline'
     	);
     	$this->form_fields['description'] = array(
-    		'title' => __( 'Description', 'payline' ),
+    		'title' => __( 'Description', 'tmsm-woocommerce-payline' ),
     	    'type' => 'textarea',
-    	    'description' => __( 'This controls the description which the user sees during checkout.', 'payline' ),
-    	    'default' => sprintf(__('You will be redirected on %s secured pages at the end of your order.', 'payline'), 'Payline')
+    	    'description' => __( 'This controls the description which the user sees during checkout.', 'tmsm-woocommerce-payline' ),
+    	    'default' => sprintf(__('You will be redirected on %s secured pages at the end of your order.', 'tmsm-woocommerce-payline'), 'Payline')
     	);
     	$this->form_fields['debug'] = array(
-    		'title' => __( 'Debug logging', 'payline' ),
+    		'title' => __( 'Debug logging', 'tmsm-woocommerce-payline' ),
     	    'type' => 'checkbox',
-    	    'label' => __( 'Enable', 'payline' ),
+    	    'label' => __( 'Enable', 'tmsm-woocommerce-payline' ),
     	    'default' => 'no',
-    	    'description' => sprintf(__('Log %s events, such as requests, inside <code>woocommerce/logs/%s.txt</code>', 'payline'), 'Payline', 'payline'),
+    	    'description' => sprintf(__('Log %s events, such as requests, inside <code>woocommerce/logs/%s.txt</code>', 'tmsm-woocommerce-payline'), 'Payline', 'tmsm-woocommerce-payline'),
     	);
     	
     	/*
     	 * Connexion
     	 */
     	$this->form_fields['payline_gateway_access'] = array(
-    		'title' => __( 'PAYLINE GATEWAY ACCESS', 'payline' ),
+    		'title' => __( 'Gateway Access', 'tmsm-woocommerce-payline' ),
     	    'type' => 'title'
     	);
     	$this->form_fields['merchant_id'] = array(
-    		'title' => __('Merchant ID', 'payline'), 
+    		'title' => __('Merchant ID', 'tmsm-woocommerce-payline'),
     		'type' => 'text', 
     		'default' => '',
-    		'description' => __('Your Payline account identifier', 'payline')
+    		'description' => __('Your Payline account identifier', 'tmsm-woocommerce-payline')
     	);
     	$this->form_fields['access_key'] = array(
-    		'title' => __('Access key', 'payline'), 
+    		'title' => __('Access key', 'tmsm-woocommerce-payline'),
     		'type' => 'text', 
     		'default' => '',
-    		'description' => sprintf(__( 'Password used to call %s web services (available in the %s administration center)', 'payline'), 'Payline','Payline')
+    		'description' => sprintf(__( 'Password used to call %s web services (available in the %s administration center)', 'tmsm-woocommerce-payline'), 'Payline','Payline')
     	);
     	$this->form_fields['environment'] = array(
-    		'title' => __('Target environment', 'payline'),
+    		'title' => __('Target environment', 'tmsm-woocommerce-payline'),
     		'type' => 'select',
     		'default' => 'Homologation',
     		'options' => array(
-    		  PaylineSDK::ENV_HOMO => __('Homologation', 'payline'), 
-    		  PaylineSDK::ENV_PROD => __('Production', 'payline')
+    		  PaylineSDK::ENV_HOMO => __('Homologation', 'tmsm-woocommerce-payline'),
+    		  PaylineSDK::ENV_PROD => __('Production', 'tmsm-woocommerce-payline')
     		),
-    		'description' => __('Payline destination environement of your requests', 'payline')
+    		'description' => __('Payline destination environement of your requests', 'tmsm-woocommerce-payline')
     	);
     			    			
     	/*
     	 * Proxy Settings
     	 */
     	$this->form_fields['proxy_settings'] = array(
-    		'title' => __( 'PROXY SETTINGS', 'payline' ),
+    		'title' => __( 'Proxy Settings', 'tmsm-woocommerce-payline' ),
     		'type' => 'title'
     	);
     	$this->form_fields['proxy_host'] = array(
-    	    'title' => __('Host', 'payline'), 
+    	    'title' => __('Host', 'tmsm-woocommerce-payline'),
     	    'type' => 'text', 
     	);
     	$this->form_fields['proxy_port'] = array(
-    	    'title' => __('Port', 'payline'), 
+    	    'title' => __('Port', 'tmsm-woocommerce-payline'),
     	    'type' => 'text', 
     	);
     	$this->form_fields['proxy_login'] = array(
-    	    'title' => __('Login', 'payline'), 
+    	    'title' => __('Login', 'tmsm-woocommerce-payline'),
     	    'type' => 'text', 
     	);
     	$this->form_fields['proxy_password'] = array(
-    	    'title' => __('Password', 'payline'), 
+    	    'title' => __('Password', 'tmsm-woocommerce-payline'),
     	    'type' => 'text', 
     	);
     	
@@ -490,59 +490,59 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
     	 * Payment Settings
     	 */
     	$this->form_fields['payment_settings'] = array(
-    		'title' => __( 'PAYMENT SETTINGS', 'payline' ),
+    		'title' => __( 'PAYMENT SETTINGS', 'tmsm-woocommerce-payline' ),
     		'type' => 'title'
     	);
     	$this->form_fields['language'] = array(
-    		'title' => __('Default language', 'payline'),
+    		'title' => __('Default language', 'tmsm-woocommerce-payline'),
     		'type' => 'select',
     		'default' => '',
     		'options' => array(
-    			'' => __('Based on browser', 'payline'),
-    			'fr' => __('fr', 'payline'),
-    			'en' => __('en', 'payline'),
-    			'pt' => __('pt', 'payline')
+    			'' => __('Based on browser', 'tmsm-woocommerce-payline'),
+    			'fr' => 'fr',
+    			'en' => 'en',
+    			'pt' => 'pt'
     		),
-    		'description' => __('Language used to display Payline web payment pages', 'payline')
+    		'description' => __('Language used to display Payline web payment pages', 'tmsm-woocommerce-payline')
     	);
     	$this->form_fields['payment_action'] = array(
-    		'title' => __('Payment action', 'payline'),
+    		'title' => __('Payment action', 'tmsm-woocommerce-payline'),
     		'type' => 'select',
     		'default' => '',
     		'options' => array(
-    			'100' => __('Authorization', 'payline'),
-    			'101' => __('Authorization + Capture', 'payline')
+    			'100' => __('Authorization', 'tmsm-woocommerce-payline'),
+    			'101' => __('Authorization + Capture', 'tmsm-woocommerce-payline')
     		),
-    		'description' => __('Type of transaction created after a payment', 'payline')
+    		'description' => __('Type of transaction created after a payment', 'tmsm-woocommerce-payline')
     	);
     	$this->form_fields['custom_page_code'] = array(
-    		'title' => __('Custom page code', 'payline'),
+    		'title' => __('Custom page code', 'tmsm-woocommerce-payline'),
     	    'type' => 'text',
-    	    'description' => __('Code of payment page customization created in Payline Administration Center', 'payline')
+    	    'description' => __('Code of payment page customization created in Payline Administration Center', 'tmsm-woocommerce-payline')
     	);
     	$this->form_fields['main_contract'] = array(
-    		'title' => __('Main contract number', 'payline'),
+    		'title' => __('Main contract number', 'tmsm-woocommerce-payline'),
     	    'type' => 'text',
-    	    'description' => __('Contract number that determines the point of sale used in Payline', 'payline')
+    	    'description' => __('Contract number that determines the point of sale used in Payline', 'tmsm-woocommerce-payline')
     	);
     	$this->form_fields['primary_contracts'] = array(
-    		'title' => __('Primary contracts', 'payline'),
+    		'title' => __('Primary contracts', 'tmsm-woocommerce-payline'),
     	    'type' => 'text',
-    	    'description' => __('Contracts displayed on web payment page - step 1. Values must be separated by ;', 'payline')
+    	    'description' => __('Contracts displayed on web payment page - step 1. Values must be separated by ;', 'tmsm-woocommerce-payline')
     	);
     	$this->form_fields['secondary_contracts'] = array(
-    		'title' => __('Secondary contracts', 'payline'),
+    		'title' => __('Secondary contracts', 'tmsm-woocommerce-payline'),
     	    'type' => 'text',
-    	    'description' => __('Contracts displayed for payment retry. Values must be separated by ;', 'payline')
+    	    'description' => __('Contracts displayed for payment retry. Values must be separated by ;', 'tmsm-woocommerce-payline')
     	);
     }
     	
-    function validate_multiselect_field ($key, $value) {
+    function validate_multiselect_field ($key, $value = '') {
     	$newValue = $_POST[$this->plugin_id . $this->id . '_' . $key];
     	if(isset($newValue) && is_array($newValue) && in_array('', $newValue)) {
     		return array('');
     	} else {
-    		return parent::validate_multiselect_field ($key);
+    		return parent::validate_multiselect_field ($key, $value);
     	}
     }
     
@@ -661,7 +661,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		    update_option('plnTokenForOrder_'.$doWebPaymentRequest['order']['ref'],$result['token']); // save association between order and payment session token
 			header('Location: '.$result['redirectURL']);
 		}else{
-			echo '<p>'.sprintf(__('You can\'t be redirected to payment page (error code '.$result['result']['code'].' : '.$result['result']['longMessage'].'). Please contact us.', 'payline'), 'Payline').'</p>';
+			echo '<p>'.sprintf(__('You can\'t be redirected to payment page (error code '.$result['result']['code'].' : '.$result['result']['longMessage'].'). Please contact us.', 'tmsm-woocommerce-payline'), 'Payline').'</p>';
 		}
 		exit;
     }

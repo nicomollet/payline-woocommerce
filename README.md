@@ -1,13 +1,12 @@
-Payline extension for wooCommerce
-====================================
+Payline by Monext payment gateway for WooCommerce
+=================================================
 
-This plugin allows the merchant to connect his store to Payline payment gateway.
-Payline offers many payment means (Visa, Mastercard, American Express, Paypal, JCB,...) and a powerfull anti-fraud system.
+This plugin allows the merchant to connect his store to Payline by Monext payment gateway. Payline offers many payment means (Visa, Mastercard, American Express, Paypal, JCB,...) and a powerfull anti-fraud system.
 
 Docs
 ====
 
-All information available on https://support.payline.com/hc/fr/articles/201084116-modules-Payline-pour-WooCommerce-1-x-et-2-x
+All information available on https://support.payline.com/hc/fr/articles/360000884168-Module-WooCommerce
 
 
 About
