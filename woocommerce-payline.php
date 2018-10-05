@@ -15,46 +15,56 @@
  * Requires PHP:      5.6
  */
 
-if (!defined('ABSPATH')) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-define('WCPAYLINE_PLUGIN_URL', plugin_dir_url(__FILE__));
+define( 'WCPAYLINE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 function woocommerce_payline_activation() {
-	if (!is_plugin_active('woocommerce/woocommerce.php')) {
-		deactivate_plugins(plugin_basename(__FILE__));
+	if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+		deactivate_plugins( plugin_basename( __FILE__ ) );
 
-		load_plugin_textdomain('tmsm-woocommerce-payline', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-		
-		$message = sprintf(__('Sorry! In order to use WooCommerce %s Payment plugin, you need to install and activate the WooCommerce plugin.', 'tmsm-woocommerce-payline'), 'Payline');
-		wp_die($message, 'WooCommerce Payline Gateway Plugin', array('back_link' => true));
+		load_plugin_textdomain( 'tmsm-woocommerce-payline', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
+		$message = sprintf( __( 'Sorry! In order to use WooCommerce %s Payment plugin, you need to install and activate the WooCommerce plugin.',
+			'tmsm-woocommerce-payline' ), 'Payline' );
+		wp_die( $message, 'WooCommerce Payline Gateway Plugin', array( 'back_link' => true ) );
 	}
 }
-register_activation_hook(__FILE__, 'woocommerce_payline_activation');
+
+register_activation_hook( __FILE__, 'woocommerce_payline_activation' );
 
 // inserts class gateway
 function woocommerce_payline_init() {
 	// Load translation files
-	load_plugin_textdomain('tmsm-woocommerce-payline', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-	
-	if (!class_exists('WC_Gateway_Payline')) {
+	load_plugin_textdomain( 'tmsm-woocommerce-payline', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
+	if ( ! class_exists( 'WC_Gateway_Payline' ) ) {
 		require_once 'class-wc-gateway-payline.php';
 	}
-	
+
 	require_once 'vendor/autoload.php';
 }
-add_action('woocommerce_init', 'woocommerce_payline_init');
+
+add_action( 'woocommerce_init', 'woocommerce_payline_init' );
 
 
 // adds method to woocommerce methods
-function woocommerce_payline_add_method($methods) {
+function woocommerce_payline_add_method( $methods ) {
 	$methods[] = 'WC_Gateway_Payline';
+
 	return $methods;
 }
-add_filter('woocommerce_payment_gateways', 'woocommerce_payline_add_method');
+
+add_filter( 'woocommerce_payment_gateways', 'woocommerce_payline_add_method' );
 
 // add a link from plugin list to parameters
-function woocommerce_payline_add_link($links, $file) {
-	$links[] = '<a href="'.admin_url('admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_Gateway_Payline').'">' . __('Settings', 'tmsm-woocommerce-payline') .'</a>';
+function woocommerce_payline_add_link( $links, $file ) {
+	$links[] = '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=payline' ) . '">' . __( 'Settings',
+			'tmsm-woocommerce-payline' ) . '</a>';
+
 	return $links;
 }
-add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'woocommerce_payline_add_link',  10, 2);
+
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'woocommerce_payline_add_link', 10, 2 );

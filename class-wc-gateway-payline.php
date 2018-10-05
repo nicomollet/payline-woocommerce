@@ -412,9 +412,9 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$this->debug       = ( isset( $this->settings['debug'] ) && $this->settings['debug'] == 'yes' ) ? true : false;
 
 		// The module settings page URL
-		$link             = add_query_arg( 'page', 'woocommerce_settings', admin_url( 'admin.php' ) );
-		$link             = add_query_arg( 'tab', 'payment_gateways', $link );
-		$link             = add_query_arg( 'section', 'WC_Gateway_Payline', $link );
+		$link = add_query_arg('page', 'wc-settings', admin_url('admin.php'));
+		$link = add_query_arg('tab', 'checkout', $link);
+		$link = add_query_arg('section', 'payline', $link);
 		$this->admin_link = $link;
 
 		// logger
@@ -796,7 +796,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$doWebPaymentRequest['buyer']['customerId']  = $order->get_billing_email();
 		$doWebPaymentRequest['buyer']['email']       = $doWebPaymentRequest['buyer']['customerId'];
 		$doWebPaymentRequest['buyer']['ip']          = $_SERVER['REMOTE_ADDR'];
-		$doWebPaymentRequest['buyer']['mobilePhone'] = $order->get_billing_phone();
+		$doWebPaymentRequest['buyer']['mobilePhone'] = preg_replace("/[^0-9.]/", '', $order->get_billing_phone());
 
 		// BILLING ADDRESS
 		$doWebPaymentRequest['billingAddress']['name'] = $order->get_billing_first_name() . " " . $order->get_billing_last_name();

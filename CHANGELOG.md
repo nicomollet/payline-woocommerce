@@ -1,4 +1,5 @@
-
+* Update vendor folder
+* WooCommerce 3.0 compatibility (not compatible anymore with WooCommerce 2.x)
 
 ### 1.3.5 - 2017/04/04
 * Feature - send buyer info mandatoty for Cetelem 3x / 4x
