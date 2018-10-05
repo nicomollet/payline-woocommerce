@@ -14,6 +14,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	private $SDK;
 	private $posData;
 	private $disp_errors = "";
+	private $admin_link = "";
+	private $debug = false;
 	private $callGetMerchantSettings = true;
 
 	const BAD_CONNECT_SETTINGS_ERR = "Unauthorized";
@@ -750,7 +752,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	}
 
 	function process_payment( $order_id ) {
-		$order = new WC_Order( $order_id );
+		$order = wc_get_order( $order_id );
 
 		return array(
 			'result'   => 'success',
@@ -760,7 +762,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	}
 
 	function generate_payline_form( $order_id ) {
-		$order = new WC_Order( $order_id );
+		$order = wc_get_order( $order_id );
 
 		$this->SDK = new PaylineSDK(
 			$this->settings['merchant_id'],
@@ -793,8 +795,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$doWebPaymentRequest['buyer']['title']       = 'M';
 		$doWebPaymentRequest['buyer']['lastName']    = $order->get_billing_last_name();
 		$doWebPaymentRequest['buyer']['firstName']   = $order->get_billing_first_name();
-		$doWebPaymentRequest['buyer']['customerId']  = $order->get_billing_email();
-		$doWebPaymentRequest['buyer']['email']       = $doWebPaymentRequest['buyer']['customerId'];
+		$doWebPaymentRequest['buyer']['customerId'] = substr($order->get_billing_email(), 0, 50);
+		$doWebPaymentRequest['buyer']['email'] = substr($order->get_billing_email(), 0, 150);
 		$doWebPaymentRequest['buyer']['ip']          = $_SERVER['REMOTE_ADDR'];
 		$doWebPaymentRequest['buyer']['mobilePhone'] = preg_replace( "/[^0-9.]/", '', $order->get_billing_phone() );
 
@@ -863,9 +865,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$result['token'] ); // save association between order and payment session token
 			header( 'Location: ' . $result['redirectURL'] );
 		} else {
-			echo '<p>' . sprintf( __( 'You can\'t be redirected to payment page (error code ' . $result['result']['code'] . ' : '
-			                          . $result['result']['longMessage'] . '). Please contact us.', 'tmsm-woocommerce-payline' ), 'Payline' )
-			     . '</p>';
+			echo '<p>'.sprintf(__('You can\'t be redirected to payment page (error code %s: %s). Please contact us.', 'payline'), $result['result']['code'], $result['result']['longMessage']).'</p>';
+
 		}
 		exit;
 	}
