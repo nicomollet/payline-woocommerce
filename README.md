@@ -15,7 +15,7 @@ About
 Requirements
 ------------
 
-This extension requires at least wooCommerce 2.3
+This extension requires at least wooCommerce 3.0.0
 Tested up to wooCommerce 3.3.5
 
 
