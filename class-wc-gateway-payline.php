@@ -457,7 +457,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			<tr>
 				<td width="40%">
 					<p>
-						<img src="<?php echo WCPAYLINE_PLUGIN_URL . 'assets/images/payline.png'; ?>"  alt="Payline"/>
+						<img src="<?php echo WCPAYLINE_PLUGIN_URL . 'assets/images/payline.png'; ?>" alt="Payline" />
 					</p>
 				</td>
 				<td width="100%">
@@ -795,8 +795,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$doWebPaymentRequest['buyer']['title']       = 'M';
 		$doWebPaymentRequest['buyer']['lastName']    = $order->get_billing_last_name();
 		$doWebPaymentRequest['buyer']['firstName']   = $order->get_billing_first_name();
-		$doWebPaymentRequest['buyer']['customerId'] = substr($order->get_billing_email(), 0, 50);
-		$doWebPaymentRequest['buyer']['email'] = substr($order->get_billing_email(), 0, 150);
+		$doWebPaymentRequest['buyer']['customerId']  = substr( $order->get_billing_email(), 0, 50 );
+		$doWebPaymentRequest['buyer']['email']       = substr( $order->get_billing_email(), 0, 150 );
 		$doWebPaymentRequest['buyer']['ip']          = $_SERVER['REMOTE_ADDR'];
 		$doWebPaymentRequest['buyer']['mobilePhone'] = preg_replace( "/[^0-9.]/", '', $order->get_billing_phone() );
 
@@ -865,7 +865,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$result['token'] ); // save association between order and payment session token
 			header( 'Location: ' . $result['redirectURL'] );
 		} else {
-			echo '<p>'.sprintf(__('You can\'t be redirected to payment page (error code %s: %s). Please contact us.', 'tmsm-woocommerce-payline'), $result['result']['code'], $result['result']['longMessage']).'</p>';
+			echo '<p>' . sprintf( __( 'You can\'t be redirected to payment page (error code %s: %s). Please contact us.',
+					'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ) . '</p>';
 
 		}
 		exit;
@@ -903,7 +904,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			exit;
 		} else {
 			$orderId       = $res['order']['ref'];
-			$order         = new WC_Order( $orderId );
+			$order         = wc_get_order( $orderId );
 			$expectedToken = get_option( 'plnTokenForOrder_' . $orderId );
 			$message       = sprintf( __( 'Token %s does not match expected %s for order %s, updating order anyway', 'tmsm-woocommerce-payline' ),
 				$token,
@@ -933,7 +934,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
 			} elseif ( $res['result']['code'] == '02306' || $res['result']['code'] == '02533' ) {
-				$order->add_order_note( __('Payment in progress', 'tmsm-woocommerce-payline') );
+				$order->add_order_note( __( 'Payment in progress', 'tmsm-woocommerce-payline' ) );
 				die( 'Payment in progress' );
 			} else {
 				if ( $res['transaction']['id'] ) {

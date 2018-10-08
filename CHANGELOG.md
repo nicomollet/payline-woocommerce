@@ -4,6 +4,7 @@
 * Code refactoring
 * Allow token to be also paylinetoken in some cases
 * Fix format error when customer email > 50 chars
+* Translate order notes
 
 ### 1.3.5 - 2017/04/04
 * Feature - send buyer info mandatory for Cetelem 3x / 4x
