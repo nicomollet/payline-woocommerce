@@ -13,6 +13,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	private $extensionVersion = '1.3.6';
 	private $SDK;
 	private $disp_errors = "";
+	private $testmode;
 	private $admin_link = "";
 	private $debug = false;
 	private $callGetMerchantSettings = true;
@@ -394,11 +395,12 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 	public function __construct() {
 
-		$this->id                = 'payline';
-		$this->icon              = apply_filters( 'woocommerce_payline_icon', WCPAYLINE_PLUGIN_URL . 'assets/images/payline_front.png' );
-		$this->has_fields        = false;
-		$this->method_title      = 'Payline';
-		$this->order_button_text = __( 'Pay via Payline', 'tmsm-woocommerce-payline' );
+		$this->id                 = 'payline';
+		$this->icon               = apply_filters( 'woocommerce_payline_icon', WCPAYLINE_PLUGIN_URL . 'assets/images/payline_front.png' );
+		$this->has_fields         = false;
+		$this->method_title       = __( 'Payline', 'tmsm-woocommerce-payline' );
+		$this->method_description = __( 'Payline by Monext Payment Gateway', 'tmsm-woocommerce-payline' );
+		$this->order_button_text  = __( 'Pay via Payline', 'tmsm-woocommerce-payline' );
 
 		// Load the form fields.
 		$this->init_form_fields();
@@ -406,9 +408,9 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		// Load the settings.
 		$this->init_settings();
 
-		// Define user set variables
-		$this->title       = $this->settings['title'];
-		$this->description = $this->settings['description'];
+		// Define user set variables (public data)
+		$this->title              = $this->settings['title'];
+		$this->description        = $this->settings['description'];
 		$this->testmode    = ( isset( $this->settings['ctx_mode'] ) && $this->settings['ctx_mode'] === 'TEST' );
 		$this->debug       = ( isset( $this->settings['debug'] ) && $this->settings['debug'] == 'yes' ) ? true : false;
 
@@ -500,10 +502,10 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			} else {
 				if ( strcmp( WC_Gateway_Payline::BAD_CONNECT_SETTINGS_ERR, $res['result']['longMessage'] ) == 0 ) {
 					$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline, check your %s', 'tmsm-woocommerce-payline' ),
-							__( 'PAYLINE GATEWAY ACCESS', 'tmsm-woocommerce-payline' ) ) . "</p>";
+							__( 'Gateway Access', 'tmsm-woocommerce-payline' ) ) . "</p>";
 				} elseif ( strcmp( WC_Gateway_Payline::BAD_PROXY_SETTINGS_ERR, $res['result']['longMessage'] ) == 0 ) {
 					$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline, check your %s', 'tmsm-woocommerce-payline' ),
-							__( 'PROXY SETTINGS', 'tmsm-woocommerce-payline' ) ) . "</p>";
+							__( 'Proxy Settings', 'tmsm-woocommerce-payline' ) ) . "</p>";
 				} else {
 					$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline (code %s : %s)', 'tmsm-woocommerce-payline' ),
 							$res['result']['code'], $res['result']['longMessage'] ) . "</p>";
@@ -883,34 +885,34 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$token,
 				$expectedToken, $orderId );
 			$order->add_order_note( $message );
-			if ( $res['result']['code'] == '00000' ) {
+			if ( $res['result']['code'] === '00000' ) {
 				// Store transaction details
 				update_post_meta( (int) $orderId, 'Payment mean', $res['card']['type'] );
 				$order->add_order_note( __( 'Payment successful', 'tmsm-woocommerce-payline' ) );
 				$order->payment_complete( $res['transaction']['id'] );
 				wp_redirect( $this->get_return_url( $order ) );
 				die();
-			} elseif ( $res['result']['code'] == '04003' ) {
+			} elseif ( $res['result']['code'] === '04003' ) {
 				$order->update_status( 'on-hold', __( 'Fraud alert. See details in Payline administration center.', 'tmsm-woocommerce-payline' ) );
 				wp_redirect( $this->get_return_url( $order ) );
 				die();
-			} elseif ( $res['result']['code'] == '02319' ) {
+			} elseif ( $res['result']['code'] === '02319' ) {
 				$order->update_status( 'cancelled', __( 'Buyer cancelled his payment', 'tmsm-woocommerce-payline' ) );
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
-			} elseif ( $res['result']['code'] == '02304' || $res['result']['code'] == '02324' ) {
+			} elseif ( $res['result']['code'] === '02304' || $res['result']['code'] === '02324' ) {
 				$order->update_status( 'cancelled', __( 'Payment session expired without transaction', 'tmsm-woocommerce-payline' ) );
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
-			} elseif ( $res['result']['code'] == '02534' || $res['result']['code'] == '02324' ) {
+			} elseif ( $res['result']['code'] === '02534' || $res['result']['code'] === '02324' ) {
 				$order->update_status( 'cancelled', __( 'Payment session expired with no redirection on payment page', 'tmsm-woocommerce-payline' ) );
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
-			} elseif ( $res['result']['code'] == '02306' || $res['result']['code'] == '02533' ) {
+			} elseif ( $res['result']['code'] === '02306' || $res['result']['code'] === '02533' ) {
 				$order->add_order_note( __( 'Payment in progress', 'tmsm-woocommerce-payline' ) );
 				die( 'Payment in progress' );
 			} else {
-				if ( $res['transaction']['id'] ) {
+				if ( !empty($res['transaction']['id']) ) {
 					update_post_meta( (int) $orderId, 'Transaction ID', $res['transaction']['id'] );
 				}
 				$order->update_status( 'failed', sprintf( __( 'Payment refused (code %s): %s', 'tmsm-woocommerce-payline' ), $res['result']['code'],

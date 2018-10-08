@@ -1,3 +1,4 @@
+### 1.3.6 - 2018/10/08
 * Update vendor folder
 * WooCommerce 3.0 compatibility (not compatible anymore with WooCommerce 2.x)
 * Transaction ID compatibility
@@ -5,6 +6,7 @@
 * Allow token to be also paylinetoken in some cases
 * Fix format error when customer email > 50 chars
 * Translate order notes
+* Update translations
 
 ### 1.3.5 - 2017/04/04
 * Feature - send buyer info mandatory for Cetelem 3x / 4x
