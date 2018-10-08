@@ -865,7 +865,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$result['token'] ); // save association between order and payment session token
 			header( 'Location: ' . $result['redirectURL'] );
 		} else {
-			echo '<p>'.sprintf(__('You can\'t be redirected to payment page (error code %s: %s). Please contact us.', 'payline'), $result['result']['code'], $result['result']['longMessage']).'</p>';
+			echo '<p>'.sprintf(__('You can\'t be redirected to payment page (error code %s: %s). Please contact us.', 'tmsm-woocommerce-payline'), $result['result']['code'], $result['result']['longMessage']).'</p>';
 
 		}
 		exit;
@@ -905,49 +905,42 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$orderId       = $res['order']['ref'];
 			$order         = new WC_Order( $orderId );
 			$expectedToken = get_option( 'plnTokenForOrder_' . $orderId );
-			//if ( $expectedToken != $token ) {
-			$message = 'Token ' . $token . ' does not match expected ' . $expectedToken . ' for order ' . $orderId . ' updating order anyway';
-			//$this->SDK->getLogger()->addError( $message );
+			$message       = sprintf( __( 'Token %s does not match expected %s for order %s, updating order anyway', 'tmsm-woocommerce-payline' ),
+				$token,
+				$expectedToken, $orderId );
 			$order->add_order_note( $message );
-			//die( $message );
-			//}
 			if ( $res['result']['code'] == '00000' ) {
 				// Store transaction details
-				update_post_meta( (int) $orderId, 'Transaction ID', $res['transaction']['id'] );
-				update_post_meta( (int) $orderId, 'Card number', $res['card']['number'] );
 				update_post_meta( (int) $orderId, 'Payment mean', $res['card']['type'] );
-				update_post_meta( (int) $orderId, 'Card expiry', $res['card']['expirationDate'] );
-				$order->payment_complete($res['transaction']['id']);
+				$order->add_order_note( __( 'Payment successful', 'tmsm-woocommerce-payline' ) );
+				$order->payment_complete( $res['transaction']['id'] );
 				wp_redirect( $this->get_return_url( $order ) );
 				die();
 			} elseif ( $res['result']['code'] == '04003' ) {
-				update_post_meta( (int) $orderId, 'Transaction ID', $res['transaction']['id'] );
-				update_post_meta( (int) $orderId, 'Card number', $res['card']['number'] );
-				update_post_meta( (int) $orderId, 'Payment mean', $res['card']['type'] );
-				update_post_meta( (int) $orderId, 'Card expiry', $res['card']['expirationDate'] );
-				$order->update_status( 'on-hold', 'Fraud alert. See details in Payline administration center. ' );
+				$order->update_status( 'on-hold', __( 'Fraud alert. See details in Payline administration center.', 'tmsm-woocommerce-payline' ) );
 				wp_redirect( $this->get_return_url( $order ) );
 				die();
 			} elseif ( $res['result']['code'] == '02319' ) {
-				$order->update_status( 'cancelled', 'Buyer cancelled his payment' );
+				$order->update_status( 'cancelled', __( 'Buyer cancelled his payment', 'tmsm-woocommerce-payline' ) );
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
 			} elseif ( $res['result']['code'] == '02304' || $res['result']['code'] == '02324' ) {
-				$order->update_status( 'cancelled', 'Payment session expired without transaction' );
+				$order->update_status( 'cancelled', __( 'Payment session expired without transaction', 'tmsm-woocommerce-payline' ) );
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
 			} elseif ( $res['result']['code'] == '02534' || $res['result']['code'] == '02324' ) {
-				$order->update_status( 'cancelled', 'Payment session expired with no redirection on payment page' );
+				$order->update_status( 'cancelled', __( 'Payment session expired with no redirection on payment page', 'tmsm-woocommerce-payline' ) );
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
 			} elseif ( $res['result']['code'] == '02306' || $res['result']['code'] == '02533' ) {
-				$order->add_order_note( 'Payment in progress' );
+				$order->add_order_note( __('Payment in progress', 'tmsm-woocommerce-payline') );
 				die( 'Payment in progress' );
 			} else {
 				if ( $res['transaction']['id'] ) {
 					update_post_meta( (int) $orderId, 'Transaction ID', $res['transaction']['id'] );
 				}
-				$order->update_status( 'failed', 'Payment refused (code ' . $res['result']['code'] . ' : ' . $res['result']['longMessage'] );
+				$order->update_status( 'failed', sprintf( __( 'Payment refused (code %s): %s', 'tmsm-woocommerce-payline' ), $res['result']['code'],
+					$res['result']['longMessage'] ) );
 				wp_redirect( $this->get_return_url( $order ) );
 				die();
 			}
