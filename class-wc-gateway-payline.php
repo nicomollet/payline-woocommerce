@@ -12,7 +12,6 @@ use Payline\PaylineSDK;
 class WC_Gateway_Payline extends WC_Payment_Gateway {
 	private $extensionVersion = '1.3.6';
 	private $SDK;
-	private $posData;
 	private $disp_errors = "";
 	private $admin_link = "";
 	private $debug = false;
@@ -448,37 +447,11 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	public function admin_options() {
 		global $woocommerce;
 
-		if ( key_exists( 'reset', $_REQUEST ) && $_REQUEST['reset'] == 'true' ) {
+		if ( key_exists( 'reset', $_REQUEST ) && $_REQUEST['reset'] === 'true' ) {
 			do_action( 'payline_reset_admin_options' );
 		}
 		?>
-
-		<table border="0">
-			<tr>
-				<td width="40%">
-					<p>
-						<img src="<?php echo WCPAYLINE_PLUGIN_URL . 'assets/images/payline.png'; ?>" alt="Payline" />
-					</p>
-				</td>
-				<td width="100%">
-					<p>
-						<?php echo "Payline extension v" . $this->extensionVersion; ?><br />
-						Developed by <a href="http://www.monext.net" target="#">Monext</a> for WooCommerce 2.3 to 2.6.4<br />
-						<?php
-						$mailSubject = "Question about WooCommerce pluggin - merchant " . $this->settings['merchant_id'];
-						if ( strcmp( "PROD", $this->settings['environment'] ) == 0 ) {
-							$mailSubject .= " in PRODUCTION";
-						} else {
-							$mailSubject .= " in HOMOLOGATION";
-						}
-						?>
-						For any question please contact
-						<a href="mailto:support@payline.com?subject=<?php echo $mailSubject ?>">support@payline.com</a><br />
-					</p>
-				</td>
-			</tr>
-		</table>
-
+		<img src="<?php echo WCPAYLINE_PLUGIN_URL . 'assets/images/payline.png'; ?>" alt="Payline" />
 
 		<?php
 		if ( ! empty( $woocommerce->session->payline_reset ) ) {
