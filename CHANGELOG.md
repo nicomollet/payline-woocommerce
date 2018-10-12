@@ -1,3 +1,5 @@
+* Fix checking token and expecting token
+
 ### 1.3.6 - 2018/10/08
 * Update vendor folder
 * WooCommerce 3.0 compatibility (not compatible anymore with WooCommerce 2.x)

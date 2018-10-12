@@ -881,10 +881,12 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$orderId       = $res['order']['ref'];
 			$order         = wc_get_order( $orderId );
 			$expectedToken = get_option( 'plnTokenForOrder_' . $orderId );
-			$message       = sprintf( __( 'Token %s does not match expected %s for order %s, updating order anyway', 'tmsm-woocommerce-payline' ),
-				$token,
-				$expectedToken, $orderId );
-			$order->add_order_note( $message );
+			if($expectedToken !== $token){
+				$message       = sprintf( __( 'Token %s does not match expected %s for order %s, updating order anyway', 'tmsm-woocommerce-payline' ),
+					$token,
+					$expectedToken, $orderId );
+				$order->add_order_note( $message );
+			}
 			if ( $res['result']['code'] === '00000' ) {
 				// Store transaction details
 				update_post_meta( (int) $orderId, 'Payment mean', $res['card']['type'] );
