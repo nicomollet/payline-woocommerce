@@ -1,4 +1,5 @@
 * Fix checking token and expecting token
+* Fix encryption key type
 
 ### 1.3.6 - 2018/10/08
 * Update vendor folder

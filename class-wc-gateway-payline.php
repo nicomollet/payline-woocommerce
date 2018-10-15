@@ -491,7 +491,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$this->settings['environment']
 			);
 			$this->SDK->usedBy( 'wooComm ' . $this->extensionVersion );
-			$res = $this->SDK->getEncryptionKey( null );
+			$res = $this->SDK->getEncryptionKey( array() );
 			if ( $res['result']['code'] == '00000' ) {
 				echo "<div class='inline updated'>";
 				echo "<p>" . __( 'Your settings is correct, connexion with Payline is established', 'tmsm-woocommerce-payline' ) . "</p>";

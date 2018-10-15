@@ -315,31 +315,24 @@ class PaylineSDK
         'PaymentMeansTrans'        => 'PaymentMeansTransHist',
         'AlertsTrans'              => 'AlertsTransHist'
     );
-    
-    /**
-     * PaylineSDK class constructor
-     *
-     * @param string $merchant_id
-     *            the merchant identifier
-     * @param string $access_key
-     *            the access key generated in Payline Administration Center
-     * @param string $proxy_host
-     *            host of your proxy (set null if no proxy)
-     * @param string $proxy_port
-     *            port used by your proxy (set null if no proxy)
-     * @param string $proxy_login
-     *            login required by your proxy (set null if no proxy)
-     * @param string $proxy_password
-     *            password required by your proxy (set null if no proxy)
-     * @param string $environment
-     *            target Payline environment : set PaylineSDK::ENV_HOMO for homologation, PaylineSDK::ENV_PROD for production
-     * @param string $pathLog
-     *            path to your custom log folder, must end by directory separator. If null, default logs folder is used. Default : null
-     * @param int $logLevel
-     *            Monolog\Logger log level. Default : Logger::INFO
-     * @param  Monolog\Logger $externalLogger
-     *            Monolog\Logger instance, used by PaylineSDK but external to it 
-     */
+
+	/**
+	 * PaylineSDK constructor.
+	 *
+	 * @param        string $merchant_id the merchant identifier
+	 * @param        string $access_key the access key generated in Payline Administration Center
+	 * @param        string $proxy_host host of your proxy (set null if no proxy)
+	 * @param        string $proxy_port port used by your proxy (set null if no proxy)
+	 * @param        string $proxy_login login required by your proxy (set null if no proxy)
+	 * @param        string $proxy_password password required by your proxy (set null if no proxy)
+	 * @param        string $environment target Payline environment : set PaylineSDK::ENV_HOMO for homologation, PaylineSDK::ENV_PROD for production
+	 * @param null   $pathLog path to your custom log folder, must end by directory separator. If null, default logs folder is used. Default : null
+	 * @param int    $logLevel Monolog\Logger log level. Default : Logger::INFO
+	 * @param null   $externalLogger Monolog\Logger instance, used by PaylineSDK but external to it
+	 * @param string $defaultTimezone
+	 *
+	 * @throws \Exception
+	 */
     public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
         if (is_int($merchant_id)) {
@@ -835,7 +828,7 @@ class PaylineSDK
      * Adds indexes with empty values to the web services request array, in order to prevent SOAP format exception
      *
      * @param array $array
-     *            associative array containing web services parameters
+     * @return array containing web services parameters
      */
     private static function formatRequest(&$array)
     {
@@ -1288,7 +1281,7 @@ class PaylineSDK
      * Adds details about an order item
      *
      * @param array $newOrderDetail
-     *            associative array containing details about an order item
+     * @return array containing details about an order item
      */
     public function addOrderDetail(array $newOrderDetail)
     {
@@ -1335,7 +1328,7 @@ class PaylineSDK
      * calls doAuthorization web service
      *
      * @param array $array
-     *            associative array containing doAuthorization parameters
+     * @return array containing doAuthorization parameters
      */
     public function doAuthorization(array $array)
     {
@@ -1357,7 +1350,7 @@ class PaylineSDK
      * calls doCapture web service
      *
      * @param array $array
-     *            associative array containing doCapture parameters
+     * @return array containing doCapture parameters
      */
     public function doCapture(array $array)
     {
@@ -1374,7 +1367,7 @@ class PaylineSDK
      * calls doReAuthorization web service
      *
      * @param array $array
-     *            associative array containing doReAuthorization parameters
+     * @return array containing doReAuthorization parameters
      */
     public function doReAuthorization(array $array)
     {
@@ -1391,7 +1384,7 @@ class PaylineSDK
      * calls doDebit web service
      *
      * @param array $array
-     *            associative array containing doDebit parameters
+     * @return array containing doDebit parameters
      */
     public function doDebit(array $array)
     {
@@ -1412,7 +1405,7 @@ class PaylineSDK
      * calls doRefund web service
      *
      * @param array $array
-     *            associative array containing doRefund parameters
+     * @return array containing doRefund parameters
      */
     public function doRefund($array)
     {
@@ -1431,7 +1424,7 @@ class PaylineSDK
      * calls doReset web service
      *
      * @param array $array
-     *            associative array containing doReset parameters
+     * @return array containing doReset parameters
      */
     public function doReset(array $array)
     {
@@ -1446,7 +1439,7 @@ class PaylineSDK
      * calls doCredit web service
      *
      * @param array $array
-     *            associative array containing doCredit parameters
+     * @return array containing doCredit parameters
      */
     public function doCredit(array $array)
     {
@@ -1466,7 +1459,7 @@ class PaylineSDK
      * calls createWallet web service
      *
      * @param array $array
-     *            associative array containing createWallet parameters
+     * @return array containing createWallet parameters
      */
     public function createWallet(array $array)
     {
@@ -1487,7 +1480,7 @@ class PaylineSDK
      * calls updateWallet web service
      *
      * @param array $array
-     *            associative array containing updateWallet parameters
+     * @return array containing updateWallet parameters
      */
     public function updateWallet(array $array)
     {
@@ -1508,7 +1501,7 @@ class PaylineSDK
      * calls getWallet web service
      *
      * @param array $array
-     *            associative array containing getWallet parameters
+     * @return array containing getWallet parameters
      */
     public function getWallet(array $array)
     {
@@ -1524,7 +1517,7 @@ class PaylineSDK
      * calls getCards web service
      *
      * @param array $array
-     *            associative array containing getCards parameters
+     * @return array containing getCards parameters
      */
     public function getCards(array $array)
     {
@@ -1540,7 +1533,7 @@ class PaylineSDK
      * calls disableWallet web service
      *
      * @param array $array
-     *            associative array containing disableWallet parameters
+     * @return array containing disableWallet parameters
      */
     public function disableWallet(array $array)
     {
@@ -1556,7 +1549,7 @@ class PaylineSDK
      * calls enableWallet web service
      *
      * @param array $array
-     *            associative array containing enableWallet parameters
+     * @return array containing enableWallet parameters
      */
     public function enableWallet(array $array)
     {
@@ -1572,7 +1565,7 @@ class PaylineSDK
      * calls doImmediateWalletPayment web service
      *
      * @param array $array
-     *            associative array containing doImmediateWalletPayment parameters
+     * @return array containing doImmediateWalletPayment parameters
      */
     public function doImmediateWalletPayment(array $array)
     {
@@ -1594,7 +1587,7 @@ class PaylineSDK
      * calls doScheduledWalletPayment web service
      *
      * @param array $array
-     *            associative array containing doScheduledWalletPayment parameters
+     * @return array containing doScheduledWalletPayment parameters
      */
     public function doScheduledWalletPayment(array $array)
     {
@@ -1616,7 +1609,7 @@ class PaylineSDK
      * calls doRecurrentWalletPayment web service
      *
      * @param array $array
-     *            associative array containing doRecurrentWalletPayment parameters
+     * @return array containing doRecurrentWalletPayment parameters
      */
     public function doRecurrentWalletPayment(array $array)
     {
@@ -1639,7 +1632,7 @@ class PaylineSDK
      * calls getPaymentRecord web service
      *
      * @param array $array
-     *            associative array containing getPaymentRecord parameters
+     * @return array containing getPaymentRecord parameters
      */
     public function getPaymentRecord(array $array)
     {
@@ -1654,7 +1647,7 @@ class PaylineSDK
      * calls disablePaymentRecord web service
      *
      * @param array $array
-     *            associative array containing disablePaymentRecord parameters
+     * @return array containing disablePaymentRecord parameters
      */
     public function disablePaymentRecord(array $array)
     {
@@ -1669,7 +1662,7 @@ class PaylineSDK
      * calls verifyEnrollment web service
      *
      * @param array $array
-     *            associative array containing verifyEnrollment parameters
+     * @return array containing verifyEnrollment parameters
      */
     public function verifyEnrollment(array $array)
     {
@@ -1694,7 +1687,7 @@ class PaylineSDK
      * calls verifyAuthentication web service
      *
      * @param array $array
-     *            associative array containing verifyAuthentication parameters
+     * @return array containing verifyAuthentication parameters
      */
     public function verifyAuthentication(array $array)
     {
@@ -1711,7 +1704,7 @@ class PaylineSDK
      * calls doScoringCheque web service
      *
      * @param array $array
-     *            associative array containing doScoringCheque parameters
+     * @return array containing doScoringCheque parameters
      */
     public function doScoringCheque(array $array)
     {
@@ -1725,10 +1718,10 @@ class PaylineSDK
     }
 
     /**
-     * calls getEncryptionKey web service
+     * Calls getEncryptionKey web service
      *
      * @param array $array
-     *            associative array containing getEncryptionKey parameters
+     * @return array containing getEncryptionKey parameters
      */
     public function getEncryptionKey(array $array)
     {
@@ -1737,10 +1730,10 @@ class PaylineSDK
     }
 
     /**
-     * calls getMerchantSettings web service
+     * Calls getMerchantSettings web service
      *
      * @param array $array
-     *            associative array containing getMerchantSettings parameters
+     * @return array containing getMerchantSettings parameters
      */
     public function getMerchantSettings(array $array)
     {
@@ -1749,10 +1742,10 @@ class PaylineSDK
     }
 
     /**
-     * calls getBalance web service
+     * Calls getBalance web service
      *
      * @param array $array
-     *            associative array containing getBalance parameters
+     * @return  array containing getBalance parameters
      */
     public function getBalance(array $array)
     {
@@ -1764,10 +1757,10 @@ class PaylineSDK
     }
 
     /**
-     * calls getToken web service
+     * Calls getToken web service
      *
      * @param array $array
-     *            associative array containing getToken parameters
+     * @return array containing getToken parameters
      */
     public function getToken(array $array)
     {
@@ -1780,10 +1773,10 @@ class PaylineSDK
     }
 
     /**
-     * calls unBlock web service
+     * Calls unBlock web service
      *
      * @param array $array
-     *            associative array containing getBalance parameters
+     * @return array containing getBalance parameters
      */
     public function unBlock(array $array)
     {
@@ -1795,10 +1788,10 @@ class PaylineSDK
     }
 
     /**
-     * calls updatePaymentRecord web service
+     * Calls updatePaymentRecord web service
      *
      * @param array $array
-     *            associative array containing updatePaymentRecord parameters
+     * @return array containing updatePaymentRecord parameters
      */
     public function updatePaymentRecord(array $array)
     {
@@ -1811,10 +1804,10 @@ class PaylineSDK
     }
 
     /**
-     * calls getBillingRecord web service
+     * Calls getBillingRecord web service
      *
      * @param array $array
-     *            associative array containing getBillingRecord parameters
+     * @return array containing getBillingRecord parameters
      */
     public function getBillingRecord(array $array)
     {
@@ -1827,10 +1820,10 @@ class PaylineSDK
     }
 
     /**
-     * calls updateBillingRecord web service
+     * Calls updateBillingRecord web service
      *
      * @param array $array
-     *            associative array containing updateBillingRecord parameters
+     * @return array containing updateBillingRecord parameters
      */
     public function updateBillingRecord(array $array)
     {
@@ -1844,10 +1837,10 @@ class PaylineSDK
     }
 
     /**
-     * calls doBankTransfer web service
+     * Calls doBankTransfer web service
      *
      * @param array $array
-     *            associative array containing doBankTransfer parameters
+     * @return array containing doBankTransfer parameters
      */
     public function doBankTransfer(array $array) 
     {
@@ -1871,10 +1864,10 @@ class PaylineSDK
      */
     
     /**
-     * calls doWebPayment web service
+     * Calls doWebPayment web service
      *
      * @param array $array
-     *            associative array containing doWebPayment parameters
+     * @return array containing doWebPayment parameters
      */
     public function doWebPayment(array $array) 
     {
@@ -1910,7 +1903,7 @@ class PaylineSDK
      * calls doWebPayment web service
      *
      * @param array $array
-     *            associative array containing getWebPaymentDetails parameters
+     * @return array containing getWebPaymentDetails parameters
      */
     public function getWebPaymentDetails(array $array)
     {
@@ -1921,7 +1914,7 @@ class PaylineSDK
      * calls manageWebWallet web service
      *
      * @param array $array
-     *            associative array containing manageWebWallet parameters
+     * @return array containing manageWebWallet parameters
      */
     public function manageWebWallet(array $array) 
     {
@@ -1950,7 +1943,7 @@ class PaylineSDK
      * calls createWebWallet web service
      *
      * @param array $array
-     *            associative array containing createWebWallet parameters
+     * @return array containing createWebWallet parameters
      */
     public function createWebWallet(array $array)
     {
@@ -1977,7 +1970,7 @@ class PaylineSDK
      * calls updateWebWallet web service
      *
      * @param array $array
-     *            associative array containing updateWebWallet parameters
+     * @return array containing updateWebWallet parameters
      */
     public function updateWebWallet(array $array) 
     {
@@ -2007,7 +2000,7 @@ class PaylineSDK
      * calls getWebWallet web service
      *
      * @param array $array
-     *            associative array containing getWebWallet parameters
+     * @return array containing getWebWallet parameters
      */
     public function getWebWallet(array $array)
     {
@@ -2026,7 +2019,7 @@ class PaylineSDK
      * calls getTransactionDetails web service
      *
      * @param array $array
-     *            associative array containing getWebWallet parameters
+     * @return array containing getWebWallet parameters
      */
     public function getTransactionDetails(array $array) 
     {
@@ -2046,7 +2039,7 @@ class PaylineSDK
      * calls transactionsSearch web service
      *
      * @param array $array
-     *            associative array containing getWebWallet parameters
+     * @return array containing getWebWallet parameters
      */
     public function transactionsSearch(array $array) 
     {
@@ -2078,7 +2071,7 @@ class PaylineSDK
      * calls getAlertDetails web service
      *
      * @param array $array
-     *            associative array containing getAlertDetails parameters
+     * @return array containing getAlertDetails parameters
      */
     public function getAlertDetails(array $array) {
         $WSRequest = array(
