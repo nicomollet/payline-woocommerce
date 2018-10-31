@@ -396,7 +396,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	public function __construct() {
 
 		$this->id                 = 'payline';
-		$this->icon               = apply_filters( 'woocommerce_payline_icon', WCPAYLINE_PLUGIN_URL . 'assets/images/payline_front.png' );
+		$this->icon               = apply_filters( 'woocommerce_payline_icon', WCPAYLINE_PLUGIN_URL . 'assets/images/cards.png' );
 		$this->has_fields         = false;
 		$this->method_title       = __( 'Payline', 'tmsm-woocommerce-payline' );
 		$this->method_description = __( 'Payline by Monext Payment Gateway', 'tmsm-woocommerce-payline' );
@@ -441,7 +441,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	}
 
 	function get_icon() {
-		$icon = $this->icon ? '<img style="width: 85px;" src="' . WC_HTTPS::force_https_url( $this->icon ) . '" alt="' . $this->title . '" />' : '';
+		$icon = $this->icon ? '<img src="' . WC_HTTPS::force_https_url( $this->icon ) . '" alt="' . $this->title . '" />' : '';
 
 		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 	}
