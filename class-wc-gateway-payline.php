@@ -760,7 +760,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 		// ORDER
 		$doWebPaymentRequest['order']['ref']      = $order->get_id();
-		$doWebPaymentRequest['order']['country']  = $order->billing_country;
+		$doWebPaymentRequest['order']['country']  = $order->get_billing_country();
 		$doWebPaymentRequest['order']['taxes']    = round( $order->get_total_tax() );
 		$doWebPaymentRequest['order']['amount']   = $doWebPaymentRequest['payment']['amount'];
 		$doWebPaymentRequest['order']['date']     = date( 'd/m/Y H:i' );

@@ -1,6 +1,7 @@
 * Fix checking token and expecting token
 * Fix encryption key type
 * Default icon for credit cards (CB+Visa+Mastercard)
+* Fix wrong call to order object
 
 ### 1.3.6 - 2018/10/08
 * Update vendor folder
