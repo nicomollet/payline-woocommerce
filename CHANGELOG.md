@@ -1,3 +1,4 @@
+### 1.3.7 - 2018/11/01
 * Fix checking token and expecting token
 * Fix encryption key type
 * Default icon for credit cards (CB+Visa+Mastercard)
