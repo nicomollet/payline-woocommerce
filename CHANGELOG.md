@@ -1,3 +1,5 @@
+* Remove dots in phone numbers to avoid Payline format error 02305
+
 ### 1.3.7 - 2018/11/01
 * Fix checking token and expecting token
 * Fix encryption key type
