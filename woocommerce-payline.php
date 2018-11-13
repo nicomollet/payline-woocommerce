@@ -3,7 +3,7 @@
  * Plugin Name: TMSM WooCommerce Payline by Monext Payment Gateway
  * Plugin URI: http://www.payline.com
  * Description: Integration of Payline by Monext payment gateway in your WooCommerce store
- * Version: 1.3.7
+ * Version: 1.3.8
  * Requires at least: 4.4
  * Tested up to: 4.9.8
  * WC requires at least: 3.3

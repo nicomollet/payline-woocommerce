@@ -1,3 +1,4 @@
+### 1.3.8 - 2018/11/13
 * Remove dots in phone numbers to avoid Payline format error 02305
 
 ### 1.3.7 - 2018/11/01
