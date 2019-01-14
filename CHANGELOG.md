@@ -1,3 +1,4 @@
+### 1.3.9 - 2019/01/14
 * Prevent orders to be cancelled if order already has been paid
 
 ### 1.3.8 - 2018/11/13
