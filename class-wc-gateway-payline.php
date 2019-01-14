@@ -903,11 +903,15 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
 			} elseif ( $res['result']['code'] === '02304' || $res['result']['code'] === '02324' ) {
-				$order->update_status( 'cancelled', __( 'Payment session expired without transaction', 'tmsm-woocommerce-payline' ) );
+				if( ! $order->is_paid()){
+					$order->update_status( 'cancelled', __( 'Payment session expired without transaction', 'tmsm-woocommerce-payline' ) );
+				}
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
 			} elseif ( $res['result']['code'] === '02534' || $res['result']['code'] === '02324' ) {
-				$order->update_status( 'cancelled', __( 'Payment session expired with no redirection on payment page', 'tmsm-woocommerce-payline' ) );
+				if( ! $order->is_paid()){
+					$order->update_status( 'cancelled', __( 'Payment session expired with no redirection on payment page', 'tmsm-woocommerce-payline' ) );
+				}
 				wp_redirect( $order->get_cancel_order_url() );
 				die();
 			} elseif ( $res['result']['code'] === '02306' || $res['result']['code'] === '02533' ) {

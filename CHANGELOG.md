@@ -1,3 +1,5 @@
+* Prevent orders to be cancelled if order already has been paid
+
 ### 1.3.8 - 2018/11/13
 * Remove dots in phone numbers to avoid Payline format error 02305
 
