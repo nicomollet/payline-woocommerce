@@ -727,7 +727,12 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	}
 
 	function process_payment( $order_id ) {
-		return parent::process_payment( $order_id );
+		$order = wc_get_order( $order_id );
+
+		return array(
+			'result'   => 'success',
+			'redirect' => $this->get_return_url( $order ),
+		);
 	}
 
 	function generate_payline_form( $order_id ) {
