@@ -1,3 +1,4 @@
+### 1.4.0 - 2019/06/26
 * Remove obsolete calls
 * Check $_GET vars the right way
 
