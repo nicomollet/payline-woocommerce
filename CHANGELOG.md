@@ -1,3 +1,6 @@
+* Remove obsolete calls
+* Check $_GET vars the right way
+
 ### 1.3.9 - 2019/01/14
 * Prevent orders to be cancelled if order already has been paid
 

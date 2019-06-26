@@ -841,16 +841,20 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		exit;
 	}
 
+	/**
+	 * Payline Callback
+	 * @throws Exception
+	 */
 	function payline_callback() {
 		if ( isset( $_GET['order_id'] ) ) {
 			$this->generate_payline_form( $_GET['order_id'] );
 			exit;
 		}
 
-		if ( $_GET['token'] ) {
+		if ( ! empty( $_GET['token'] ) ) {
 			$token = esc_html( $_GET['token'] );
 		}
-		if ( $_GET['paylinetoken'] ) {
+		if ( ! empty( $_GET['paylinetoken'] ) ) {
 			$token = esc_html( $_GET['paylinetoken'] );
 		}
 		if ( empty( $token ) ) {
