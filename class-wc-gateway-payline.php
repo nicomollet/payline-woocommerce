@@ -10,7 +10,7 @@ use Payline\PaylineSDK;
  * @category       Payment Gateways
  */
 class WC_Gateway_Payline extends WC_Payment_Gateway {
-	private $extensionVersion = '1.4.0';
+	private $extensionVersion = '1.4.1';
 	private $SDK;
 	private $disp_errors = "";
 	private $testmode;
@@ -731,7 +731,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 		return array(
 			'result'   => 'success',
-			'redirect' => $this->get_return_url( $order ),
+			'redirect' => add_query_arg( 'order', $order->get_id(),
+				add_query_arg( 'key', $order->get_order_key(), $order->get_checkout_order_received_url() ) ),
 		);
 	}
 

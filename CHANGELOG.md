@@ -1,3 +1,6 @@
+### 1.4.1 - 2019/06/27
+* Revert fixing php notices
+
 ### 1.4.0 - 2019/06/26
 * Remove obsolete calls
 * Check $_GET vars the right way
