@@ -1,3 +1,6 @@
+### 1.4.2 - 2019/07/03
+* Fix version number
+
 ### 1.4.1 - 2019/06/27
 * Revert fixing php notices
 
