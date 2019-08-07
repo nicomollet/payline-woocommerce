@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Payline\n"
-"POT-Creation-Date: 2018-10-08 14:52+0200\n"
+"Project-Id-Version: TMSM WooCommerce Payline\n"
+"POT-Creation-Date: 2019-08-07 17:31+0200\n"
 "PO-Revision-Date: 2017-02-08 09:22+0100\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: https://github.com/thermesmarins\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -247,56 +247,61 @@ msgstr ""
 msgid "Contracts displayed for payment retry. Values must be separated by ;"
 msgstr ""
 
-#: class-wc-gateway-payline.php:843
+#: class-wc-gateway-payline.php:863
+#, php-format
+msgid "Can't redirect to payment page (error code %s: %s)"
+msgstr ""
+
+#: class-wc-gateway-payline.php:866
 #, php-format
 msgid ""
 "You can't be redirected to payment page (error code %s: %s). Please contact "
 "us."
 msgstr ""
 
-#: class-wc-gateway-payline.php:884
+#: class-wc-gateway-payline.php:912
 #, php-format
 msgid ""
 "Token %s does not match expected %s for order %s, updating order anyway"
 msgstr ""
 
-#: class-wc-gateway-payline.php:891
+#: class-wc-gateway-payline.php:920
 msgid "Payment successful"
 msgstr ""
 
-#: class-wc-gateway-payline.php:896
+#: class-wc-gateway-payline.php:925
 msgid "Fraud alert. See details in Payline administration center."
 msgstr ""
 
-#: class-wc-gateway-payline.php:900
+#: class-wc-gateway-payline.php:929
 msgid "Buyer cancelled his payment"
 msgstr ""
 
-#: class-wc-gateway-payline.php:904
+#: class-wc-gateway-payline.php:934
 msgid "Payment session expired without transaction"
 msgstr ""
 
-#: class-wc-gateway-payline.php:908
+#: class-wc-gateway-payline.php:940
 msgid "Payment session expired with no redirection on payment page"
 msgstr ""
 
-#: class-wc-gateway-payline.php:912
+#: class-wc-gateway-payline.php:945
 msgid "Payment in progress"
 msgstr ""
 
-#: class-wc-gateway-payline.php:918
+#: class-wc-gateway-payline.php:951
 #, php-format
 msgid "Payment refused (code %s): %s"
 msgstr ""
 
-#: woocommerce-payline.php:30
+#: woocommerce-payline.php:34
 #, php-format
 msgid ""
 "Sorry! In order to use WooCommerce %s Payment plugin, you need to install "
 "and activate the WooCommerce plugin."
 msgstr ""
 
-#: woocommerce-payline.php:64
+#: woocommerce-payline.php:68
 msgid "Settings"
 msgstr ""
 

@@ -749,8 +749,6 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	function generate_payline_form( $order_id, $return_url = false ) {
 		$order = wc_get_order( $order_id );
 
-		error_log('generate_payline_form');
-
 		$this->SDK = new PaylineSDK(
 			$this->settings['merchant_id'],
 			$this->settings['access_key'],
@@ -848,8 +846,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		// EXECUTE
 		$result = $this->SDK->doWebPayment( $doWebPaymentRequest );
 
-		error_log('sdk_url:');
-		error_log($result['redirectURL']);
+
 
 		if ( $result['result']['code'] == '00000' ) {
 			update_option( 'plnTokenForOrder_' . $doWebPaymentRequest['order']['ref'],
@@ -862,6 +859,10 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				header( 'Location: ' . $result['redirectURL'] );
 			}
 		} else {
+
+			$order->add_order_note( sprintf( __( 'Can\'t redirect to payment page (error code %s: %s)',
+				'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ) );
+
 			echo '<p>' . sprintf( __( 'You can\'t be redirected to payment page (error code %s: %s). Please contact us.',
 					'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ) . '</p>';
 
@@ -874,9 +875,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	 * @throws Exception
 	 */
 	function payline_callback() {
-		error_log('payline_callback');
 		if ( isset( $_GET['order_id'] ) ) {
-			error_log('order_id:'.$_GET['order_id']);
 			$this->generate_payline_form( $_GET['order_id'] );
 			exit;
 		}
