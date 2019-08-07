@@ -1,3 +1,4 @@
+### 1.4.3 - 2019/08/07
 * Log an order note when there is an error generating payline form
 
 ### 1.4.2 - 2019/07/03
