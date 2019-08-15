@@ -880,11 +880,11 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			exit;
 		}
 
-		if ( ! empty( $_GET['token'] ) ) {
-			$token = esc_html( $_GET['token'] );
+		if ( isset( $_GET['token'] ) ) {
+			$token = esc_html( wp_unslash( $_GET['token'] ) );
 		}
-		if ( ! empty( $_GET['paylinetoken'] ) ) {
-			$token = esc_html( $_GET['paylinetoken'] );
+		if ( isset( $_GET['paylinetoken'] ) ) {
+			$token = esc_html( wp_unslash( $_GET['paylinetoken'] ) );
 		}
 		if ( empty( $token ) ) {
 			exit;
