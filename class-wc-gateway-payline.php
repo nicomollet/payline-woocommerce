@@ -843,30 +843,48 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$doWebPaymentRequest['secondContracts'] = $secondContracts;
 		}
 
-		// EXECUTE
-		$result = $this->SDK->doWebPayment( $doWebPaymentRequest );
 
+		try {
+			// EXECUTE
+			$result = $this->SDK->doWebPayment( $doWebPaymentRequest );
 
+			if ( $result['result']['code'] == '00000' ) {
+				update_option( 'plnTokenForOrder_' . $doWebPaymentRequest['order']['ref'], $result['token'] ); // save association between order and payment session token.
 
-		if ( $result['result']['code'] == '00000' ) {
-			update_option( 'plnTokenForOrder_' . $doWebPaymentRequest['order']['ref'],
-				$result['token'] ); // save association between order and payment session token
+				if ( $return_url ) {
+					return $result['redirectURL'];
+				} else {
+					header( 'Location: ' . $result['redirectURL'] );
+				}
+			} else {
 
-			if($return_url){
-				return $result['redirectURL'];
+				$order->add_order_note( sprintf( __( 'Can\'t redirect to payment page (error code %s: %s)',
+					'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ) );
+
+				$response = array(
+					'result'   => 'failure',
+					'messages' => '<div class="woocommerce-error">'.sprintf( __( 'You can\'t be redirected to payment page (error code %s: %s). Please contact us.',
+							'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ).'</div>' ,
+				);
+
+				wp_send_json( $response );
+
 			}
-			else{
-				header( 'Location: ' . $result['redirectURL'] );
-			}
-		} else {
+
+		} catch ( \Exception $e ) {
 
 			$order->add_order_note( sprintf( __( 'Can\'t redirect to payment page (error code %s: %s)',
-				'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ) );
+				'tmsm-woocommerce-payline' ), PaylineSDK::ERR_CODE, $e->getMessage() ) );
 
-			echo '<p>' . sprintf( __( 'You can\'t be redirected to payment page (error code %s: %s). Please contact us.',
-					'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ) . '</p>';
+			$response = array(
+				'result'   => 'failure',
+				'messages' => '<div class="woocommerce-error">'.sprintf( __( 'You can\'t be redirected to payment page (error code %s: %s). Please contact us.', 'tmsm-woocommerce-payline' ), PaylineSDK::ERR_CODE, $e->getMessage() ) .'</div>',
+			);
+
+			wp_send_json( $response );
 
 		}
+
 		exit;
 	}
 
