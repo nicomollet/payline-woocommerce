@@ -1,3 +1,5 @@
+* Display other payment gateway names when Payline has an error
+
 ### 1.4.4 - 2019/08/15
 * Check token existance
 * Detailed error message on checkout when payment gateway exception

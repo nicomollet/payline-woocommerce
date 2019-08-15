@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Unable to connect to Payline (code %s : %s)\n"
-"POT-Creation-Date: 2019-08-07 17:32+0200\n"
-"PO-Revision-Date: 2019-08-07 17:33+0200\n"
+"POT-Creation-Date: 2019-08-15 11:31+0200\n"
+"PO-Revision-Date: 2019-08-15 11:31+0200\n"
 "Last-Translator: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language-Team: https://github.com/thermesmarins\n"
 "Language: fr_FR\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: class-wc-gateway-payline.php:401
+#: class-wc-gateway-payline.php:401 class-wc-gateway-payline.php:852
 msgid "Payline"
 msgstr "Payline"
 
@@ -263,13 +263,13 @@ msgstr ""
 "Les contrats affichés pour le paiement \"Réessayer\". Les valeurs doivent "
 "être séparées par ;"
 
-#: class-wc-gateway-payline.php:863
+#: class-wc-gateway-payline.php:872 class-wc-gateway-payline.php:887
 #, php-format
 msgid "Can't redirect to payment page (error code %s: %s)"
 msgstr ""
 "Impossible de rediriger vers la page de paiement (code d’erreur %s : %s)"
 
-#: class-wc-gateway-payline.php:866
+#: class-wc-gateway-payline.php:877 class-wc-gateway-payline.php:892
 #, php-format
 msgid ""
 "You can't be redirected to payment page (error code %s: %s). Please contact "
@@ -278,41 +278,46 @@ msgstr ""
 "Vous ne pouvez pas être redirigé vers la page de paiement (code d'erreur "
 "%s : %s). Veuillez nous contacter."
 
-#: class-wc-gateway-payline.php:912
+#: class-wc-gateway-payline.php:878 class-wc-gateway-payline.php:892
+#, php-format
+msgid "Or use our other payment gateways: %s"
+msgstr "Ou utilisez une autre passerelle de paiement : %s"
+
+#: class-wc-gateway-payline.php:941
 #, php-format
 msgid "Token %s does not match expected %s for order %s, updating order anyway"
 msgstr ""
 "Le jeton %s ne correspond pas au jeton attendu %s pour la commande %s, mise "
 "à jour de la commande malgré tout"
 
-#: class-wc-gateway-payline.php:920
+#: class-wc-gateway-payline.php:949
 msgid "Payment successful"
 msgstr "Paiement réussi"
 
-#: class-wc-gateway-payline.php:925
+#: class-wc-gateway-payline.php:954
 msgid "Fraud alert. See details in Payline administration center."
 msgstr ""
 "Fraude suspectée. Voir les détails dans le centre d’administration Payline."
 
-#: class-wc-gateway-payline.php:929
+#: class-wc-gateway-payline.php:958
 msgid "Buyer cancelled his payment"
 msgstr "L’acheteur a annulé son paiement"
 
-#: class-wc-gateway-payline.php:934
+#: class-wc-gateway-payline.php:963
 msgid "Payment session expired without transaction"
 msgstr "La session de paiement a expiré sans transaction"
 
-#: class-wc-gateway-payline.php:940
+#: class-wc-gateway-payline.php:969
 msgid "Payment session expired with no redirection on payment page"
 msgstr ""
 "La session de paiement a expiré avec aucune redirection sur la page de "
 "paiement"
 
-#: class-wc-gateway-payline.php:945
+#: class-wc-gateway-payline.php:974
 msgid "Payment in progress"
 msgstr "Paiement en cours"
 
-#: class-wc-gateway-payline.php:951
+#: class-wc-gateway-payline.php:980
 #, php-format
 msgid "Payment refused (code %s): %s"
 msgstr "Paiement refusé (code %s) : %s"

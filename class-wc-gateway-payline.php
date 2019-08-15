@@ -844,8 +844,19 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		}
 
 
+		// Find other payment gateways
+		$gateways = WC()->payment_gateways()->get_available_payment_gateways();
+		$other_gateways = [];
+		if( !empty($gateways )) {
+			foreach( $gateways as $gateway ) {
+				if ( $gateway->is_available() && $gateway->method_title !== __( 'Payline', 'tmsm-woocommerce-payline' )) {
+					$other_gateways[] = $gateway->method_title;
+				}
+			}
+		}
+
+		// Execute payment
 		try {
-			// EXECUTE
 			$result = $this->SDK->doWebPayment( $doWebPaymentRequest );
 
 			if ( $result['result']['code'] == '00000' ) {
@@ -864,7 +875,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$response = array(
 					'result'   => 'failure',
 					'messages' => '<div class="woocommerce-error">'.sprintf( __( 'You can\'t be redirected to payment page (error code %s: %s). Please contact us.',
-							'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ).'</div>' ,
+							'tmsm-woocommerce-payline' ), $result['result']['code'], $result['result']['longMessage'] ).(count($other_gateways) > 0 ? '<br>'. sprintf( __( 'Or use our other payment gateways: %s', 'tmsm-woocommerce-payline' ), join(', ', $other_gateways) ) : '').'</div>' ,
 				);
 
 				wp_send_json( $response );
@@ -878,7 +889,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 			$response = array(
 				'result'   => 'failure',
-				'messages' => '<div class="woocommerce-error">'.sprintf( __( 'You can\'t be redirected to payment page (error code %s: %s). Please contact us.', 'tmsm-woocommerce-payline' ), PaylineSDK::ERR_CODE, $e->getMessage() ) .'</div>',
+				'messages' => '<div class="woocommerce-error">'.sprintf( __( 'You can\'t be redirected to payment page (error code %s: %s). Please contact us.', 'tmsm-woocommerce-payline' ), PaylineSDK::ERR_CODE, $e->getMessage() ) . (count($other_gateways) > 0 ? '<br>'. sprintf( __( 'Or use our other payment gateways: %s', 'tmsm-woocommerce-payline' ), join(', ', $other_gateways) ) : '').'</div>',
 			);
 
 			wp_send_json( $response );

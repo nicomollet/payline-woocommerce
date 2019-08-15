@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: TMSM WooCommerce Payline\n"
-"POT-Creation-Date: 2019-08-07 17:31+0200\n"
+"POT-Creation-Date: 2019-08-15 11:31+0200\n"
 "PO-Revision-Date: 2017-02-08 09:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: https://github.com/thermesmarins\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: class-wc-gateway-payline.php:401
+#: class-wc-gateway-payline.php:401 class-wc-gateway-payline.php:852
 msgid "Payline"
 msgstr ""
 
@@ -247,49 +247,54 @@ msgstr ""
 msgid "Contracts displayed for payment retry. Values must be separated by ;"
 msgstr ""
 
-#: class-wc-gateway-payline.php:863
+#: class-wc-gateway-payline.php:872 class-wc-gateway-payline.php:887
 #, php-format
 msgid "Can't redirect to payment page (error code %s: %s)"
 msgstr ""
 
-#: class-wc-gateway-payline.php:866
+#: class-wc-gateway-payline.php:877 class-wc-gateway-payline.php:892
 #, php-format
 msgid ""
 "You can't be redirected to payment page (error code %s: %s). Please contact "
 "us."
 msgstr ""
 
-#: class-wc-gateway-payline.php:912
+#: class-wc-gateway-payline.php:878 class-wc-gateway-payline.php:892
+#, php-format
+msgid "Or use our other payment gateways: %s"
+msgstr ""
+
+#: class-wc-gateway-payline.php:941
 #, php-format
 msgid ""
 "Token %s does not match expected %s for order %s, updating order anyway"
 msgstr ""
 
-#: class-wc-gateway-payline.php:920
+#: class-wc-gateway-payline.php:949
 msgid "Payment successful"
 msgstr ""
 
-#: class-wc-gateway-payline.php:925
+#: class-wc-gateway-payline.php:954
 msgid "Fraud alert. See details in Payline administration center."
 msgstr ""
 
-#: class-wc-gateway-payline.php:929
+#: class-wc-gateway-payline.php:958
 msgid "Buyer cancelled his payment"
 msgstr ""
 
-#: class-wc-gateway-payline.php:934
+#: class-wc-gateway-payline.php:963
 msgid "Payment session expired without transaction"
 msgstr ""
 
-#: class-wc-gateway-payline.php:940
+#: class-wc-gateway-payline.php:969
 msgid "Payment session expired with no redirection on payment page"
 msgstr ""
 
-#: class-wc-gateway-payline.php:945
+#: class-wc-gateway-payline.php:974
 msgid "Payment in progress"
 msgstr ""
 
-#: class-wc-gateway-payline.php:951
+#: class-wc-gateway-payline.php:980
 #, php-format
 msgid "Payment refused (code %s): %s"
 msgstr ""
