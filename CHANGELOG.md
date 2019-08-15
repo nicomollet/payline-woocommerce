@@ -1,3 +1,4 @@
+### 1.4.5 - 2019/08/15
 * Display other payment gateway names when Payline has an error
 
 ### 1.4.4 - 2019/08/15
