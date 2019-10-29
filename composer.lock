@@ -1,27 +1,30 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "9a826aaceaad2924e9f6489cc1bf6110",
     "packages": [
         {
             "name": "monext/payline-sdk",
-            "version": "4.52.1",
+            "version": "4.59.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PaylineByMonext/payline-php-sdk.git",
-                "reference": "25a04234f2a826c572e104834f6f851606137ff9"
+                "reference": "af1049b0cf7ce4e513c4e0dfb11b50b4b5444c41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PaylineByMonext/payline-php-sdk/zipball/25a04234f2a826c572e104834f6f851606137ff9",
-                "reference": "25a04234f2a826c572e104834f6f851606137ff9",
+                "url": "https://api.github.com/repos/PaylineByMonext/payline-php-sdk/zipball/af1049b0cf7ce4e513c4e0dfb11b50b4b5444c41",
+                "reference": "af1049b0cf7ce4e513c4e0dfb11b50b4b5444c41",
                 "shasum": ""
             },
             "require": {
-                "monolog/monolog": "1.*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "ext-soap": "*",
+                "monolog/monolog": "1.* || ~2.0",
                 "php": ">=5.3.0"
             },
             "type": "library",
@@ -47,7 +50,7 @@
                 "Payline",
                 "payment"
             ],
-            "time": "2017-10-24T09:55:59+00:00"
+            "time": "2019-10-21T08:51:29+00:00"
         },
         {
             "name": "monext/payline-tools-sdk",
@@ -97,16 +100,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.23.0",
+            "version": "1.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
                 "shasum": ""
             },
             "require": {
@@ -171,20 +174,20 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-06-19T01:22:40+00:00"
+            "time": "2019-09-06T13:49:17+00:00"
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
+                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
                 "shasum": ""
             },
             "require": {
@@ -193,7 +196,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -218,7 +221,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2019-10-25T08:06:51+00:00"
         }
     ],
     "packages-dev": [],
