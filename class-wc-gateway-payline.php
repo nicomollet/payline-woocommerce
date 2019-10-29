@@ -860,12 +860,13 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$result = $this->SDK->doWebPayment( $doWebPaymentRequest );
 
 			if ( $result['result']['code'] == '00000' ) {
+				$order->add_meta_data('payline_token', $result['token'], true);
 				update_option( 'plnTokenForOrder_' . $doWebPaymentRequest['order']['ref'], $result['token'] ); // save association between order and payment session token.
 
 				if ( $return_url ) {
 					return $result['redirectURL'];
 				} else {
-					header( 'Location: ' . $result['redirectURL'] );
+					wp_redirect( $result['redirectURL'] );
 				}
 			} else {
 
