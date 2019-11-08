@@ -860,7 +860,9 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$result = $this->SDK->doWebPayment( $doWebPaymentRequest );
 
 			if ( $result['result']['code'] == '00000' ) {
-				$order->add_meta_data('payline_token', $result['token'], true);
+				//error_log('adding payline_token meta '.$result['token'].' to order '.$order->get_id());
+				$order->add_meta_data('payline_token', $result['token']);
+				//$order->add_meta_data('_aaa', '_bbb');
 
 				if ( $return_url ) {
 					return $result['redirectURL'];
@@ -938,6 +940,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$order         = wc_get_order( $orderId );
 
 			$expected_order_token = $order->get_meta('payline_token', true);
+			error_log('getting payline_token meta '.$expected_order_token.' from order '.$order->get_id());
 
 			if($expected_order_token !== $token){
 				$message       = sprintf( __( 'Token %s does not match expected %s for order %s, updating order anyway', 'tmsm-woocommerce-payline' ),
