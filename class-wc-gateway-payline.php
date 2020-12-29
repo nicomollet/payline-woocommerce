@@ -861,8 +861,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 			if ( $result['result']['code'] == '00000' ) {
 				//error_log('adding payline_token meta '.$result['token'].' to order '.$order->get_id());
-				$order->add_meta_data('payline_token', $result['token']);
-				//$order->add_meta_data('_aaa', '_bbb');
+				$order->add_meta_data('_payline_token', $result['token']);
 
 				if ( $return_url ) {
 					return $result['redirectURL'];
@@ -939,8 +938,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$orderId       = $res['order']['ref'];
 			$order         = wc_get_order( $orderId );
 
-			$expected_order_token = $order->get_meta('payline_token', true);
-			error_log('getting payline_token meta '.$expected_order_token.' from order '.$order->get_id());
+			$expected_order_token = $order->get_meta('_payline_token', true);
 
 			if($expected_order_token !== $token){
 				$message       = sprintf( __( 'Token %s does not match expected %s for order %s, updating order anyway', 'tmsm-woocommerce-payline' ),
@@ -951,7 +949,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 			if ( $res['result']['code'] === '00000' ) {
 				// Store transaction details
-				update_post_meta( (int) $orderId, 'Payment mean', $res['card']['type'] );
+				update_post_meta( (int) $orderId, '_payline_method', ($res['payment']['method']) ?? '' ) );
 				$order->add_order_note( __( 'Payment successful', 'tmsm-woocommerce-payline' ) );
 				$order->payment_complete( $res['transaction']['id'] );
 				wp_safe_redirect( $this->get_return_url( $order ) );
@@ -980,9 +978,6 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$order->add_order_note( __( 'Payment in progress', 'tmsm-woocommerce-payline' ) );
 				die( 'Payment in progress' );
 			} else {
-				if ( !empty($res['transaction']['id']) ) {
-					update_post_meta( (int) $orderId, 'Transaction ID', $res['transaction']['id'] );
-				}
 				$order->update_status( 'failed', sprintf( __( 'Payment refused (code %s): %s', 'tmsm-woocommerce-payline' ), $res['result']['code'],
 					$res['result']['longMessage'] ) );
 				wp_safe_redirect( $this->get_return_url( $order ) );
