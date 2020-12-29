@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: TMSM WooCommerce Payline\n"
-"POT-Creation-Date: 2019-08-15 11:31+0200\n"
+"POT-Creation-Date: 2020-12-29 15:13+0100\n"
 "PO-Revision-Date: 2017-02-08 09:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: https://github.com/thermesmarins\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: woocommerce-payline.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -20,63 +20,67 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: class-wc-gateway-payline.php:401 class-wc-gateway-payline.php:852
+#: class-wc-gateway-payline.php:403 class-wc-gateway-payline.php:851
 msgid "Payline"
 msgstr ""
 
-#: class-wc-gateway-payline.php:402
+#: class-wc-gateway-payline.php:404
 msgid "Payline by Monext Payment Gateway"
 msgstr ""
 
-#: class-wc-gateway-payline.php:403
+#: class-wc-gateway-payline.php:405
 msgid "Pay via Payline"
 msgstr ""
 
-#: class-wc-gateway-payline.php:461
+#: class-wc-gateway-payline.php:464
 #, php-format
 msgid "Your %s configuration parameters are reset."
 msgstr ""
 
-#: class-wc-gateway-payline.php:468 class-wc-gateway-payline.php:473
-#: class-wc-gateway-payline.php:479
+#: class-wc-gateway-payline.php:471 class-wc-gateway-payline.php:476
+#: class-wc-gateway-payline.php:482
 #, php-format
 msgid "%s is mandatory"
 msgstr ""
 
-#: class-wc-gateway-payline.php:469 class-wc-gateway-payline.php:618
+#: class-wc-gateway-payline.php:472 class-wc-gateway-payline.php:618
 msgid "Merchant ID"
 msgstr ""
 
-#: class-wc-gateway-payline.php:474
+#: class-wc-gateway-payline.php:477
 msgid "Access Key"
 msgstr ""
 
-#: class-wc-gateway-payline.php:480 class-wc-gateway-payline.php:700
+#: class-wc-gateway-payline.php:483 class-wc-gateway-payline.php:700
 msgid "Main contract number"
 msgstr ""
 
-#: class-wc-gateway-payline.php:497
+#: class-wc-gateway-payline.php:488
+msgid "Settings are incomplete"
+msgstr ""
+
+#: class-wc-gateway-payline.php:494
 msgid "Your settings is correct, connexion with Payline is established"
 msgstr ""
 
-#: class-wc-gateway-payline.php:499
+#: class-wc-gateway-payline.php:496
 msgid "You are in homologation mode, payments are simulated !"
 msgstr ""
 
-#: class-wc-gateway-payline.php:504 class-wc-gateway-payline.php:507
+#: class-wc-gateway-payline.php:501 class-wc-gateway-payline.php:504
 #, php-format
 msgid "Unable to connect to Payline, check your %s"
 msgstr ""
 
-#: class-wc-gateway-payline.php:505 class-wc-gateway-payline.php:614
+#: class-wc-gateway-payline.php:502 class-wc-gateway-payline.php:614
 msgid "Gateway Access"
 msgstr ""
 
-#: class-wc-gateway-payline.php:508 class-wc-gateway-payline.php:645
+#: class-wc-gateway-payline.php:505 class-wc-gateway-payline.php:645
 msgid "Proxy Settings"
 msgstr ""
 
-#: class-wc-gateway-payline.php:510
+#: class-wc-gateway-payline.php:507
 #, php-format
 msgid "Unable to connect to Payline (code %s : %s)"
 msgstr ""
@@ -133,8 +137,7 @@ msgstr ""
 
 #: class-wc-gateway-payline.php:606
 #, php-format
-msgid ""
-"Log %s events, such as requests, inside <code>woocommerce/logs/%s.txt</code>"
+msgid "Log %s events, such as requests, inside <code>%s</code> folder"
 msgstr ""
 
 #: class-wc-gateway-payline.php:621
@@ -247,54 +250,68 @@ msgstr ""
 msgid "Contracts displayed for payment retry. Values must be separated by ;"
 msgstr ""
 
-#: class-wc-gateway-payline.php:872 class-wc-gateway-payline.php:887
+#: class-wc-gateway-payline.php:871 class-wc-gateway-payline.php:886
 #, php-format
 msgid "Can't redirect to payment page (error code %s: %s)"
 msgstr ""
 
-#: class-wc-gateway-payline.php:877 class-wc-gateway-payline.php:892
+#: class-wc-gateway-payline.php:876 class-wc-gateway-payline.php:891
 #, php-format
 msgid ""
 "You can't be redirected to payment page (error code %s: %s). Please contact "
 "us."
 msgstr ""
 
-#: class-wc-gateway-payline.php:878 class-wc-gateway-payline.php:892
+#: class-wc-gateway-payline.php:877 class-wc-gateway-payline.php:891
 #, php-format
 msgid "Or use our other payment gateways: %s"
 msgstr ""
 
-#: class-wc-gateway-payline.php:941
+#: class-wc-gateway-payline.php:926
+#, php-format
+msgid "Unable to call Payline for token %s"
+msgstr ""
+
+#: class-wc-gateway-payline.php:932
+msgid "Payment method is different than Payline"
+msgstr ""
+
+#: class-wc-gateway-payline.php:939
 #, php-format
 msgid ""
 "Token %s does not match expected %s for order %s, updating order anyway"
 msgstr ""
 
-#: class-wc-gateway-payline.php:949
+#: class-wc-gateway-payline.php:947
+#, php-format
+msgid "Order %s was a success"
+msgstr ""
+
+#: class-wc-gateway-payline.php:960
 msgid "Payment successful"
 msgstr ""
 
-#: class-wc-gateway-payline.php:954
+#: class-wc-gateway-payline.php:965
 msgid "Fraud alert. See details in Payline administration center."
 msgstr ""
 
-#: class-wc-gateway-payline.php:958
+#: class-wc-gateway-payline.php:969
 msgid "Buyer cancelled his payment"
 msgstr ""
 
-#: class-wc-gateway-payline.php:963
+#: class-wc-gateway-payline.php:974
 msgid "Payment session expired without transaction"
 msgstr ""
 
-#: class-wc-gateway-payline.php:969
+#: class-wc-gateway-payline.php:980
 msgid "Payment session expired with no redirection on payment page"
 msgstr ""
 
-#: class-wc-gateway-payline.php:974
+#: class-wc-gateway-payline.php:985
 msgid "Payment in progress"
 msgstr ""
 
-#: class-wc-gateway-payline.php:980
+#: class-wc-gateway-payline.php:988
 #, php-format
 msgid "Payment refused (code %s): %s"
 msgstr ""
@@ -311,7 +328,7 @@ msgid "Settings"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "TMSM WooCommerce Payline by Monext Payment Gateway"
+msgid "TMSM WooCommerce Payline Payment Gateway"
 msgstr ""
 
 #. Plugin URI of the plugin/theme

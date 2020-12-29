@@ -1,22 +1,22 @@
 <?php
 /**
- * Plugin Name: TMSM WooCommerce Payline by Monext Payment Gateway
- * Plugin URI: http://www.payline.com
- * Description: Integration of Payline by Monext payment gateway in your WooCommerce store
- * Version: 1.4.5
- * Requires at least: 4.4
- * Tested up to: 4.9.9
+ * Plugin Name:          TMSM WooCommerce Payline Payment Gateway
+ * Plugin URI:           http://www.payline.com
+ * Description:          Integration of Payline by Monext payment gateway in your WooCommerce store
+ * Version:              1.4.6
+ * Requires at least:    4.4
+ * Tested up to:         5.6
  * WC requires at least: 3.3
- * WC tested up to: 3.5
- * Author:            Nicolas Mollet
- * Author URI:        https://github.com/nicomollet
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
- * Text Domain:       tmsm-woocommerce-payline
- * Domain Path:       /languages
- * Github Plugin URI: https://github.com/thermesmarins/tmsm-woocommerce-payline
- * Github Branch:     master
- * Requires PHP:      5.6
+ * WC tested up to:      4.3
+ * Author:               Nicolas Mollet
+ * Author URI:           https://github.com/nicomollet
+ * License:              GPL-2.0+
+ * License URI:          http://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain:          tmsm-woocommerce-payline
+ * Domain Path:          /languages
+ * Github Plugin URI:    https://github.com/thermesmarins/tmsm-woocommerce-payline
+ * Github Branch:        master
+ * Requires PHP:         7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,7 +33,7 @@ function woocommerce_payline_activation() {
 
 		$message = sprintf( __( 'Sorry! In order to use WooCommerce %s Payment plugin, you need to install and activate the WooCommerce plugin.',
 			'tmsm-woocommerce-payline' ), 'Payline' );
-		wp_die( $message, 'WooCommerce Payline Gateway Plugin', array( 'back_link' => true ) );
+		wp_die( $message, 'TMSM WooCommerce Payline', array( 'back_link' => true ) );
 	}
 }
 

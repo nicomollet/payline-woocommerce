@@ -10,12 +10,14 @@ use Payline\PaylineSDK;
  * @category       Payment Gateways
  */
 class WC_Gateway_Payline extends WC_Payment_Gateway {
-	private $extensionVersion = '1.4.5';
+
+	private $extensionVersion = '1.4.6';
 	private $SDK;
 	private $disp_errors = "";
 	private $testmode;
 	private $admin_link = "";
 	private $debug = false;
+	private $logger = false;
 	private $callGetMerchantSettings = true;
 
 	const BAD_CONNECT_SETTINGS_ERR = "Unauthorized";
@@ -408,6 +410,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		// Load the settings.
 		$this->init_settings();
 
+
+
 		// Define user set variables (public data)
 		$this->title              = $this->settings['title'];
 		$this->description        = $this->settings['description'];
@@ -420,10 +424,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$link             = add_query_arg( 'section', 'payline', $link );
 		$this->admin_link = $link;
 
-		// logger
-		if ( $this->debug ) {
-			$this->log = new WC_Logger();
-		}
+		// Load the settings.
+		$this->init_payline();
 
 		// Actions
 
@@ -449,6 +451,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	public function admin_options() {
 		global $woocommerce;
 
+
 		if ( key_exists( 'reset', $_REQUEST ) && $_REQUEST['reset'] === 'true' ) {
 			do_action( 'payline_reset_admin_options' );
 		}
@@ -458,7 +461,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		<?php
 		if ( ! empty( $woocommerce->session->payline_reset ) ) {
 			unset( $woocommerce->session->payline_reset );
-			echo "<div class='inline updated'><p>" . sprintf( __( 'Your %s configuration parameters are reset.', 'tmsm-woocommerce-payline' ),
+			echo "<div class='notice notice-success'><p>" . sprintf( __( 'Your %s configuration parameters are reset.', 'tmsm-woocommerce-payline' ),
 					'Payline' ) . "</p></div>";
 		}
 		$this->disp_errors = "";
@@ -481,40 +484,37 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		}
 		if ( $this->callGetMerchantSettings ) {
 
-			$this->SDK = new PaylineSDK(
-				$this->settings['merchant_id'],
-				$this->settings['access_key'],
-				$this->settings['proxy_host'],
-				$this->settings['proxy_port'],
-				$this->settings['proxy_login'],
-				$this->settings['proxy_password'],
-				$this->settings['environment']
-			);
-			$this->SDK->usedBy( 'TMSM WooCommerce Payline ' . $this->extensionVersion );
-			$res = $this->SDK->getEncryptionKey( array() );
-			if ( $res['result']['code'] == '00000' ) {
-				echo "<div class='inline updated'>";
-				echo "<p>" . __( 'Your settings is correct, connexion with Payline is established', 'tmsm-woocommerce-payline' ) . "</p>";
-				if ( $this->settings['environment'] == PaylineSDK::ENV_HOMO ) {
-					echo "<p>" . __( 'You are in homologation mode, payments are simulated !', 'tmsm-woocommerce-payline' ) . "<p>";
-				}
-				echo "</div>";
-			} else {
-				if ( strcmp( WC_Gateway_Payline::BAD_CONNECT_SETTINGS_ERR, $res['result']['longMessage'] ) == 0 ) {
-					$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline, check your %s', 'tmsm-woocommerce-payline' ),
-							__( 'Gateway Access', 'tmsm-woocommerce-payline' ) ) . "</p>";
-				} elseif ( strcmp( WC_Gateway_Payline::BAD_PROXY_SETTINGS_ERR, $res['result']['longMessage'] ) == 0 ) {
-					$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline, check your %s', 'tmsm-woocommerce-payline' ),
-							__( 'Proxy Settings', 'tmsm-woocommerce-payline' ) ) . "</p>";
+			if(empty($this->SDK)){
+				$this->disp_errors .= "<p>" . __( 'Settings are incomplete', 'tmsm-woocommerce-payline' ) . "<p>";
+			}
+			else{
+				$res = $this->SDK->getEncryptionKey( array() );
+				if ( $res['result']['code'] == '00000' ) {
+					echo "<div class='notice notice-success'>";
+					echo "<p>" . __( 'Your settings is correct, connexion with Payline is established', 'tmsm-woocommerce-payline' ) . "</p>";
+					if ( $this->settings['environment'] == PaylineSDK::ENV_HOMO ) {
+						echo "<p>" . __( 'You are in homologation mode, payments are simulated !', 'tmsm-woocommerce-payline' ) . "<p>";
+					}
+					echo "</div>";
 				} else {
-					$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline (code %s : %s)', 'tmsm-woocommerce-payline' ),
-							$res['result']['code'], $res['result']['longMessage'] ) . "</p>";
+					if ( strcmp( WC_Gateway_Payline::BAD_CONNECT_SETTINGS_ERR, $res['result']['longMessage'] ) == 0 ) {
+						$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline, check your %s', 'tmsm-woocommerce-payline' ),
+								__( 'Gateway Access', 'tmsm-woocommerce-payline' ) ) . "</p>";
+					} elseif ( strcmp( WC_Gateway_Payline::BAD_PROXY_SETTINGS_ERR, $res['result']['longMessage'] ) == 0 ) {
+						$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline, check your %s', 'tmsm-woocommerce-payline' ),
+								__( 'Proxy Settings', 'tmsm-woocommerce-payline' ) ) . "</p>";
+					} else {
+						$this->disp_errors .= "<p>" . sprintf( __( 'Unable to connect to Payline (code %s : %s)', 'tmsm-woocommerce-payline' ),
+								$res['result']['code'], $res['result']['longMessage'] ) . "</p>";
+					}
 				}
 			}
+
+
 		}
 
 		if ( $this->disp_errors != "" ) {
-			echo "<div class='inline error'>$this->disp_errors</div>";
+			echo '<div class="notice notice-error">' . esc_html( $this->disp_errors ) . '</div>';
 		}
 
 		?>
@@ -603,8 +603,8 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			'type'        => 'checkbox',
 			'label'       => __( 'Enable', 'tmsm-woocommerce-payline' ),
 			'default'     => 'no',
-			'description' => sprintf( __( 'Log %s events, such as requests, inside <code>woocommerce/logs/%s.txt</code>',
-				'tmsm-woocommerce-payline' ), 'Payline', 'tmsm-woocommerce-payline' ),
+			'description' => sprintf( __( 'Log %s events, such as requests, inside <code>%s</code> folder',
+				'tmsm-woocommerce-payline' ), 'Payline', 'uploads/wc-logs' ),
 		);
 
 		/*
@@ -749,19 +749,12 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	function generate_payline_form( $order_id, $return_url = false ) {
 		$order = wc_get_order( $order_id );
 
-		if( empty($order)){
+		if ( empty( $order ) ) {
 			exit;
 		}
-		$this->SDK = new PaylineSDK(
-			$this->settings['merchant_id'],
-			$this->settings['access_key'],
-			$this->settings['proxy_host'],
-			$this->settings['proxy_port'],
-			$this->settings['proxy_login'],
-			$this->settings['proxy_password'],
-			$this->settings['environment']
-		);
-		$this->SDK->usedBy( 'TMSM WooCommerce Payline ' . $this->extensionVersion );
+		if ( empty( $this->SDK ) ) {
+			exit;
+		}
 
 		$doWebPaymentRequest                              = array();
 		$doWebPaymentRequest['version']                   = 22;
@@ -821,6 +814,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		// ORDER DETAILS
 		$items = $order->get_items();
 		foreach ( $items as $item ) {
+
 			$this->SDK->addOrderDetail( array(
 				'ref'      => substr( str_replace( array( "\r", "\n", "\t" ), array( '', '', '' ), $item['name'] ), 0, 50 ),
 				'price'    => round( $item['line_total'] * 100 ),
@@ -865,7 +859,6 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$result = $this->SDK->doWebPayment( $doWebPaymentRequest );
 
 			if ( $result['result']['code'] == '00000' ) {
-				//error_log('adding payline_token meta '.$result['token'].' to order '.$order->get_id());
 				$order->add_meta_data('_payline_token', $result['token']);
 
 				if ( $return_url ) {
@@ -925,19 +918,12 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			exit;
 		}
 
-		$this->SDK = new PaylineSDK(
-			$this->settings['merchant_id'],
-			$this->settings['access_key'],
-			$this->settings['proxy_host'],
-			$this->settings['proxy_port'],
-			$this->settings['proxy_login'],
-			$this->settings['proxy_password'],
-			$this->settings['environment']
-		);
-		$this->SDK->usedBy( 'TMSM WooCommerce Payline' . $this->extensionVersion );
+		if(empty($this->SDK)){
+			exit;
+		}
 		$res = $this->SDK->getWebPaymentDetails( array( 'token' => $token, 'version' => '2' ) );
 		if ( $res['result']['code'] == PaylineSDK::ERR_CODE ) {
-			$this->SDK->getLogger()->addError( 'Unable to call Payline for token ' . $token );
+			$this->log( sprintf(__( 'Unable to call Payline for token %s', 'tmsm-woocommerce-payline' ), $token), 1);
 			exit;
 		} else {
 			$orderId       = $res['order']['ref'];
@@ -957,8 +943,20 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			}
 
 			if ( $res['result']['code'] === '00000' ) {
+
+				$this->log( sprintf(__( 'Order %s was a success', 'tmsm-woocommerce-payline' ), $order->get_id()), 0);
+
 				// Store transaction details
-				update_post_meta( (int) $orderId, '_payline_method', ($res['payment']['method'] ?? '' ) );
+				if(isset($res['payment']['method'])){
+					update_post_meta( (int) $orderId, '_payline_method', $res['payment']['method'] );
+				}
+				if(isset($res['payment']['cardBrand'])){
+					update_post_meta( (int) $orderId, '_payline_cardbrand', $res['payment']['cardBrand'] );
+				}
+				if(isset($res['payment']['contractNumber'])){
+					update_post_meta( (int) $orderId, '_payline_contract', $res['payment']['contractNumber'] );
+				}
+
 				$order->add_order_note( __( 'Payment successful', 'tmsm-woocommerce-payline' ) );
 				$order->payment_complete( $res['transaction']['id'] );
 				wp_safe_redirect( $this->get_return_url( $order ) );
@@ -993,5 +991,52 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				die();
 			}
 		}
+
+
+	}
+
+
+	/**
+	 * Init Payline SDK
+	 */
+	protected function init_payline()
+	{
+		if(
+			!empty($this->settings['merchant_id'])
+			&& !empty($this->settings['access_key'])
+			&& !empty($this->settings['environment'])
+			&& !empty($this->settings['environment'])
+			&& !empty($this->settings['main_contract'])
+		){
+
+			$this->SDK = new PaylineSDK(
+				$this->settings['merchant_id'],
+				$this->settings['access_key'],
+				$this->settings['proxy_host'],
+				$this->settings['proxy_port'],
+				$this->settings['proxy_login'],
+				$this->settings['proxy_password'],
+				$this->settings['environment'],
+				WC_LOG_DIR. '/payline-'.wp_hash('payline').'-'
+			);
+			$this->SDK->usedBy( 'TMSM WooCommerce Payline' . $this->extensionVersion );
+		}
+		$this->logger = new WC_Logger();
+	}
+
+	/**
+	 * Log error with WC_Logger
+	 *
+	 * @param $message
+	 */
+	protected function log($message, $is_error)
+	{
+		if ( empty($message) || empty( $this->logger ) ) {
+			return;
+		}
+		if($this->debug){
+			$this->logger->add('tmsm-woocommerce-payline', $message, ($is_error ? WC_Log_Levels::ERROR : WC_Log_Levels::DEBUG));
+		}
+
 	}
 }

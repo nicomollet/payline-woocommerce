@@ -1,8 +1,14 @@
+### 1.4.6 - 2020/12/29
 * Tweak postmeta meta keys
 * Prevent orders made with Payline to interfere with other payment methods
 * Changed usedBy name
 * Upgraded SDK to 4.59.6
-* Updated APi version to 22
+* Updated API version to 22
+* Updated fr_FR translation
+* Changed log folder (now inside wc-logs)
+* Store Payline contract, card, method in order meta
+* SDK refactoring
+* Use WC_Logger if debug is on
 
 ### 1.4.5 - 2019/08/15
 * Display other payment gateway names when Payline has an error
