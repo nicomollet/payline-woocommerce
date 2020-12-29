@@ -1,4 +1,6 @@
 * Tweak postmeta meta keys
+* Prevent orders made with Payline to interfere with other payment methods
+* Changed usedBy name
 
 ### 1.4.5 - 2019/08/15
 * Display other payment gateway names when Payline has an error

@@ -490,7 +490,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$this->settings['proxy_password'],
 				$this->settings['environment']
 			);
-			$this->SDK->usedBy( 'wooComm ' . $this->extensionVersion );
+			$this->SDK->usedBy( 'TMSM WooCommerce Payline ' . $this->extensionVersion );
 			$res = $this->SDK->getEncryptionKey( array() );
 			if ( $res['result']['code'] == '00000' ) {
 				echo "<div class='inline updated'>";
@@ -749,6 +749,9 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 	function generate_payline_form( $order_id, $return_url = false ) {
 		$order = wc_get_order( $order_id );
 
+		if( empty($order)){
+			exit;
+		}
 		$this->SDK = new PaylineSDK(
 			$this->settings['merchant_id'],
 			$this->settings['access_key'],
@@ -758,7 +761,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$this->settings['proxy_password'],
 			$this->settings['environment']
 		);
-		$this->SDK->usedBy( 'wooComm ' . $this->extensionVersion );
+		$this->SDK->usedBy( 'TMSM WooCommerce Payline ' . $this->extensionVersion );
 
 		$doWebPaymentRequest                              = array();
 		$doWebPaymentRequest['version']                   = '14';
@@ -929,7 +932,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 			$this->settings['proxy_password'],
 			$this->settings['environment']
 		);
-		$this->SDK->usedBy( 'wooComm ' . $this->extensionVersion );
+		$this->SDK->usedBy( 'TMSM WooCommerce Payline' . $this->extensionVersion );
 		$res = $this->SDK->getWebPaymentDetails( array( 'token' => $token, 'version' => '2' ) );
 		if ( $res['result']['code'] == PaylineSDK::ERR_CODE ) {
 			$this->SDK->getLogger()->addError( 'Unable to call Payline for token ' . $token );
@@ -937,6 +940,10 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		} else {
 			$orderId       = $res['order']['ref'];
 			$order         = wc_get_order( $orderId );
+			if ( $order->get_payment_method() !== 'payline' ) {
+				$order->add_order_note( __( 'Payment method is different than Payline', 'tmsm-woocommerce-payline' ) );
+				exit;
+			}
 
 			$expected_order_token = $order->get_meta('_payline_token', true);
 
@@ -949,7 +956,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 			if ( $res['result']['code'] === '00000' ) {
 				// Store transaction details
-				update_post_meta( (int) $orderId, '_payline_method', ($res['payment']['method']) ?? '' ) );
+				update_post_meta( (int) $orderId, '_payline_method', ($res['payment']['method'] ?? '' ) );
 				$order->add_order_note( __( 'Payment successful', 'tmsm-woocommerce-payline' ) );
 				$order->payment_complete( $res['transaction']['id'] );
 				wp_safe_redirect( $this->get_return_url( $order ) );
