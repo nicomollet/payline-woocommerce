@@ -780,7 +780,6 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$doWebPaymentRequest['order']['currency'] = $doWebPaymentRequest['payment']['currency'];
 
 		// BUYER
-		$doWebPaymentRequest['buyer']['title']       = 'M';
 		$doWebPaymentRequest['buyer']['lastName']    = $order->get_billing_last_name();
 		$doWebPaymentRequest['buyer']['firstName']   = $order->get_billing_first_name();
 		$doWebPaymentRequest['buyer']['customerId']  = substr( $order->get_billing_email(), 0, 50 );
