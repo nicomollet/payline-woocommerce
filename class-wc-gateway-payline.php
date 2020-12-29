@@ -764,14 +764,17 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$this->SDK->usedBy( 'TMSM WooCommerce Payline ' . $this->extensionVersion );
 
 		$doWebPaymentRequest                              = array();
-		$doWebPaymentRequest['version']                   = '14';
+		$doWebPaymentRequest['version']                   = 22;
 		$doWebPaymentRequest['payment']['amount']         = round( $order->get_total() * 100 );
 		$doWebPaymentRequest['payment']['currency']       = $this->_currencies[ $order->get_currency() ];
 		$doWebPaymentRequest['payment']['action']         = $this->settings['payment_action'];
 		$doWebPaymentRequest['payment']['mode']           = 'CPT';
 		$doWebPaymentRequest['payment']['contractNumber'] = $this->settings['main_contract'];
 
-		// ORDER
+		/**
+		 * Order data
+		 * @link https://docs.payline.com/display/DT/Object+-+order
+		 */
 		$doWebPaymentRequest['order']['ref']      = $order->get_id();
 		$doWebPaymentRequest['order']['country']  = $order->get_billing_country();
 		$doWebPaymentRequest['order']['taxes']    = round( $order->get_total_tax() );
@@ -813,7 +816,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 		$doWebPaymentRequest['shippingAddress']['cityName']  = $order->get_shipping_city();
 		$doWebPaymentRequest['shippingAddress']['zipCode']   = $order->get_shipping_postcode();
 		$doWebPaymentRequest['shippingAddress']['country']   = $order->get_shipping_country();
-		$doWebPaymentRequest['shippingAddress']['phone']     = '';
+		$doWebPaymentRequest['shippingAddress']['phone']     = preg_replace( "/[^0-9]/", '', $order->get_billing_phone() );
 
 		// ORDER DETAILS
 		$items = $order->get_items();

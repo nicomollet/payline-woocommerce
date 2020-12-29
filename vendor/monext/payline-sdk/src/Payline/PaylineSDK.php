@@ -380,16 +380,17 @@ class PaylineSDK
             $merchant_id = (string) $merchant_id;
         }
 
-        date_default_timezone_set($defaultTimezone);
         if ($externalLogger) {
             $this->logger = $externalLogger;
         } else {
             $this->logger = new Logger('PaylineSDK');
         }
+
+        $logfileDate = (new \DateTime('now', new \DateTimeZone($defaultTimezone)))->format('Y-m-d');
         if (is_null($pathLog)) {
-            $this->logger->pushHandler(new StreamHandler(realpath(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . date('Y-m-d') . '.log', $logLevel)); // set default log folder
+            $this->logger->pushHandler(new StreamHandler(realpath(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . $logfileDate . '.log', $logLevel)); // set default log folder
         } elseif (strlen($pathLog) > 0) {
-            $this->logger->pushHandler(new StreamHandler($pathLog . date('Y-m-d') . '.log', $logLevel)); // set custom log folder
+            $this->logger->pushHandler(new StreamHandler($pathLog . $logfileDate . '.log', $logLevel)); // set custom log folder
         }
 
         $this->logger->info('__construct', array(
@@ -1580,6 +1581,7 @@ class PaylineSDK
      */
     public function updateWallet(array $array)
     {
+        $this->formatRequest($array);
         $WSRequest = array(
             'contractNumber'           => $array['contractNumber'],
             'cardInd'                  => $array['cardInd'],
@@ -2307,7 +2309,15 @@ class PaylineSDK
         $opts = OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING;
 
         $pad = 16;
-        $message .= str_repeat(chr($pad), $pad);
+        $len = strlen($message);
+
+        $padlen = $len + $pad - $len % $pad;
+        $message = str_pad(
+            $message,
+            $padlen,
+            chr($padlen - $len)
+        );
+
         $encrypted = openssl_encrypt($message, $cipher, $accessKey, $opts);
 
         return $this->base64_url_encode($encrypted);

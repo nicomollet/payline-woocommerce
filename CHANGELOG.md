@@ -1,6 +1,8 @@
 * Tweak postmeta meta keys
 * Prevent orders made with Payline to interfere with other payment methods
 * Changed usedBy name
+* Upgraded SDK to 4.59.6
+* Updated APi version to 22
 
 ### 1.4.5 - 2019/08/15
 * Display other payment gateway names when Payline has an error
