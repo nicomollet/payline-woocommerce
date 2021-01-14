@@ -48,7 +48,7 @@ function woocommerce_payline_init() {
 		require_once 'class-wc-gateway-payline.php';
 	}
 
-	require_once 'vendor/autoload.php';
+	require_once __DIR__.'/vendor/autoload.php';
 }
 
 add_action( 'woocommerce_init', 'woocommerce_payline_init' );
