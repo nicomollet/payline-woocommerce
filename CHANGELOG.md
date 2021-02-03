@@ -1,3 +1,5 @@
+* Absolute path for composer autoload
+
 ### 1.4.6 - 2020/12/29
 * Tweak postmeta meta keys
 * Prevent orders made with Payline to interfere with other payment methods
