@@ -1,3 +1,4 @@
+### 1.4.7 - 2021/02/03
 * Absolute path for composer autoload
 
 ### 1.4.6 - 2020/12/29

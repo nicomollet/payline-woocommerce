@@ -11,7 +11,7 @@ use Payline\PaylineSDK;
  */
 class WC_Gateway_Payline extends WC_Payment_Gateway {
 
-	private $extensionVersion = '1.4.6';
+	private $extensionVersion = '1.4.7';
 	private $SDK;
 	private $disp_errors = "";
 	private $testmode;
@@ -881,7 +881,7 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 
 			}
 
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 
 			$order->add_order_note( sprintf( __( 'Can\'t redirect to payment page (error code %s: %s)',
 				'tmsm-woocommerce-payline' ), PaylineSDK::ERR_CODE, $e->getMessage() ) );
