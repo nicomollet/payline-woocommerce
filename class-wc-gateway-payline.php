@@ -11,7 +11,7 @@ use Payline\PaylineSDK;
  */
 class WC_Gateway_Payline extends WC_Payment_Gateway {
 
-	private $extensionVersion = '1.4.7';
+	private $extensionVersion = '1.4.8';
 	private $SDK;
 	private $disp_errors = "";
 	private $testmode;
