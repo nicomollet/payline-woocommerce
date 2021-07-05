@@ -1,3 +1,5 @@
+* Prevent orders to be cancelled if order already has been paid (for other statuses)
+
 ### 1.4.7 - 2021/02/03
 * Absolute path for composer autoload
 

@@ -966,7 +966,9 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				wp_safe_redirect( $this->get_return_url( $order ) );
 				die();
 			} elseif ( $res['result']['code'] === '02319' ) {
-				$order->update_status( 'cancelled', __( 'Buyer cancelled his payment', 'tmsm-woocommerce-payline' ) );
+				if( ! $order->is_paid()){
+					$order->update_status( 'cancelled', __( 'Buyer cancelled his payment', 'tmsm-woocommerce-payline' ) );
+				}
 				wp_safe_redirect( $order->get_cancel_order_url() );
 				die();
 			} elseif ( $res['result']['code'] === '02304' || $res['result']['code'] === '02324' ) {
@@ -985,8 +987,10 @@ class WC_Gateway_Payline extends WC_Payment_Gateway {
 				$order->add_order_note( __( 'Payment in progress', 'tmsm-woocommerce-payline' ) );
 				die( 'Payment in progress' );
 			} else {
-				$order->update_status( 'failed', sprintf( __( 'Payment refused (code %s): %s', 'tmsm-woocommerce-payline' ), $res['result']['code'],
-					$res['result']['longMessage'] ) );
+				if( ! $order->is_paid()){
+					$order->update_status( 'failed', sprintf( __( 'Payment refused (code %s): %s', 'tmsm-woocommerce-payline' ), $res['result']['code'],
+						$res['result']['longMessage'] ) );
+				}
 				wp_safe_redirect( $this->get_return_url( $order ) );
 				die();
 			}
